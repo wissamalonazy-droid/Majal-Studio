@@ -2,80 +2,96 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Majal Studio | ستوديو مَجال</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAJAL STUDIO | ستوديو مَجال</title>
     <style>
-        :root { --royal-black: #0B0B0B; --navy-blue: #0A1F44; --gold: #C5A059; }
-        body { background: var(--royal-black); color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; height: 100vh; display: flex; flex-direction: column; }
+        :root { --royal-black: #0B0B0B; --navy-blue: #0A1F44; --gold: #C5A059; --green: #4AF626; }
+        body { background: var(--royal-black); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; height: 100vh; display: flex; flex-direction: column; }
         
-        /* شريط التحكم */
-        .toolbar { background: var(--navy-blue); padding: 15px 25px; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
-        .logo { color: var(--gold); margin: 0; font-weight: 900; letter-spacing: 3px; font-size: 22px; }
-        
-        .nav-actions { display: flex; gap: 15px; }
-        .action-btn { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 8px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; }
-        .action-btn:hover { background: var(--gold); color: black; }
-        
-        .run-btn { background: var(--gold); color: black; border: none; padding: 10px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px var(--gold); }
+        .toolbar { background: var(--navy-blue); padding: 15px; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; }
+        .logo { color: var(--gold); font-weight: bold; font-size: 20px; letter-spacing: 2px; }
 
-        /* منطقة المحرر */
-        #editor { flex: 1; background: #080808; color: #efefef; padding: 30px; font-family: 'Courier New', monospace; border: none; outline: none; font-size: 18px; line-height: 1.7; resize: none; text-align: right; }
+        /* شريط الأوامر السريعة */
+        .quick-bar { background: #1a1a1a; padding: 10px; display: flex; gap: 8px; overflow-x: auto; border-bottom: 1px solid #333; }
+        .q-btn { background: var(--navy-blue); color: var(--gold); border: 1px solid var(--gold); padding: 5px 15px; border-radius: 5px; white-space: nowrap; cursor: pointer; font-size: 14px; }
+
+        #editor { flex: 1; background: var(--royal-black); color: #efefef; padding: 20px; font-family: 'Courier New', monospace; border: none; outline: none; font-size: 18px; line-height: 1.6; resize: none; text-align: right; }
         
-        #console { height: 25%; background: #000; color: #4AF626; padding: 20px; font-family: monospace; border-top: 2px solid #222; overflow-y: auto; }
+        #console { height: 30%; background: #000; color: var(--green); padding: 15px; font-family: monospace; overflow-y: auto; border-top: 2px solid var(--gold); font-size: 14px; }
         
-        #copy-status { position: fixed; bottom: 30%; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 10px 25px; border-radius: 8px; display: none; font-weight: bold; z-index: 100; }
+        .run-btn { background: var(--gold); color: black; border: none; padding: 10px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="toolbar">
-    <h1 class="logo">MAJAL</h1>
-    <div class="nav-actions">
-        <button class="action-btn" onclick="toggleLang()" id="t-btn">English View 🌐</button>
-        <button class="action-btn" onclick="copyMajal()">Copy Code 📋</button>
-    </div>
-    <button class="run-btn" onclick="runEngine()">تشغيل النظام ▶</button>
+    <div class="logo">MAJAL | مَجال</div>
+    <button class="run-btn" onclick="executeMajal()">تشغيل النظام ▶</button>
+</div>
+
+<div class="quick-bar">
+    <button class="q-btn" onclick="addText('عرف ')">عرف</button>
+    <button class="q-btn" onclick="addText(' = ')">=</button>
+    <button class="q-btn" onclick="addText('اطبع ')">اطبع</button>
+    <button class="q-btn" onclick="addText('لو ')">لو</button>
+    <button class="q-btn" onclick="addText('احسب ')">احسب</button>
+    <button class="q-btn" onclick="copyCode()">نسخ 📋</button>
 </div>
 
 <textarea id="editor" spellcheck="false">
-عرف السعر = 1000
-عرف الضريبة = 150
-احسب السعر + الضريبة
+عرف السعر = 1200
+لو السعر > 1000:
+   اطبع "السعر غالي"
 اطبع السعر
 </textarea>
 
-<div id="console">> MAJAL System Ready...</div>
-<div id="copy-status">تم نسخ كود مَجال! ✅</div>
+<div id="console">> نظام مَجال بانتظار أوامرك...</div>
 
 <script>
-    let isAr = true;
+    let memory = {};
 
-    function toggleLang() {
+    function addText(text) {
         const ed = document.getElementById('editor');
-        const btn = document.getElementById('t-btn');
-        if(isAr) {
-            ed.value = ed.value.replace(/عرف/g, "define").replace(/اطبع/g, "print");
-            ed.style.textAlign = "left"; ed.dir = "ltr";
-            btn.innerText = "العرض العربي 🌐"; isAr = false;
-        } else {
-            ed.value = ed.value.replace(/define/g, "عرف").replace(/print/g, "اطبع");
-            ed.style.textAlign = "right"; ed.dir = "rtl";
-            btn.innerText = "English View 🌐"; isAr = true;
-        }
+        ed.value += text;
+        ed.focus();
     }
 
-    function copyMajal() {
+    function copyCode() {
         const ed = document.getElementById('editor');
         ed.select();
         document.execCommand('copy');
-        const status = document.getElementById('copy-status');
-        status.style.display = "block";
-        setTimeout(() => status.style.display = "none", 2000);
+        alert("تم نسخ الكود بنجاح! ✅");
     }
 
-    function runEngine() {
-        const con = document.getElementById('console');
-        con.innerHTML += "<br><span style='color:var(--gold)'>[System]: Executing Majal Script...</span>";
-        con.innerHTML += "<br>✔️ Success: Output generated.";
+    function executeMajal() {
+        const code = document.getElementById('editor').value;
+        const consoleDiv = document.getElementById('console');
+        const lines = code.split('\n');
+        consoleDiv.innerHTML = "<span style='color:white'>[بدء التنفيذ...]</span>";
+        
+        lines.forEach(line => {
+            line = line.trim();
+            if (!line) return;
+
+            // منطق "عرف"
+            if (line.startsWith("عرف")) {
+                let parts = line.replace("عرف", "").replace(/ /g, "").split("=");
+                memory[parts[0]] = parseInt(parts[1]);
+                consoleDiv.innerHTML += `<br>🔹 سجلت المتغير: ${parts[0]}`;
+            }
+            
+            // منطق "لو" (البسيط)
+            else if (line.startsWith("لو")) {
+                consoleDiv.innerHTML += `<br>⚖️ جاري فحص الشرط...`;
+            }
+
+            // منطق "اطبع"
+            else if (line.startsWith("اطبع")) {
+                let varName = line.replace("اطبع", "").trim().replace(/"/g, "");
+                let output = memory[varName] !== undefined ? memory[varName] : varName;
+                consoleDiv.innerHTML += `<br><span style="color:#C5A059">📄 ناتج مَجال: ${output}</span>`;
+            }
+        });
     }
 </script>
 
