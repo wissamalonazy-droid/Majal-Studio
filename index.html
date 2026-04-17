@@ -2,232 +2,108 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAJAL STUDIO | ستوديو مَجال الملكي</title>
+    <title>MAJAL SYSTEM | نظام مَجال المتكامل</title>
     <style>
-        /* الهوية البصرية لبراند سوهيل إلوس */
-        :root {
-            --royal-black: #0B0B0B;
-            --navy-blue: #0A1F44;
-            --gold: #C5A059;
-            --glass-white: rgba(255, 255, 255, 0.1);
-            --code-green: #4AF626;
-        }
+        :root { --royal-black: #0B0B0B; --navy: #0A1F44; --gold: #C5A059; --bg: #050505; }
+        body { background: var(--bg); color: white; font-family: 'Courier New', monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        
+        /* تصميم يحاكي أنظمة التشغيل الفخمة */
+        header { background: var(--navy); padding: 20px; border-bottom: 3px solid var(--gold); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        .system-status { font-size: 12px; color: var(--gold); letter-spacing: 1px; }
 
-        body {
-            background-color: var(--royal-black);
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-        }
+        .main-container { flex: 1; display: flex; flex-direction: column; padding: 10px; gap: 10px; }
+        
+        /* منطقة الأكواد المحمية */
+        #editor { flex: 2; background: var(--royal-black); border: 1px solid #222; border-radius: 10px; padding: 20px; color: #fff; font-size: 19px; outline: none; resize: none; box-shadow: inset 0 0 20px #000; }
 
-        /* شريط العنوان (Toolbar) */
-        header {
-            background-color: var(--navy-blue);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--gold);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            z-index: 10;
-        }
+        /* الكونسول (منطقة المعالجة المركزية) */
+        #console { flex: 1; background: #000; border: 1px solid var(--gold); border-radius: 10px; padding: 15px; overflow-y: auto; color: #4AF626; font-size: 14px; }
 
-        .logo {
-            color: var(--gold);
-            font-weight: bold;
-            font-size: 22px;
-            letter-spacing: 3px;
-            margin: 0;
-        }
-
-        /* شريط الأوامر السريعة للجوال */
-        .quick-bar {
-            background: #151515;
-            padding: 10px;
-            display: flex;
-            gap: 10px;
-            overflow-x: auto;
-            border-bottom: 1px solid #333;
-        }
-
-        .q-btn {
-            background: var(--navy-blue);
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 8px 16px;
-            border-radius: 8px;
-            white-space: nowrap;
-            cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .q-btn:active {
-            transform: scale(0.9);
-            background: var(--gold);
-            color: black;
-        }
-
-        /* منطقة المحرر */
-        #editor {
-            flex: 1;
-            background-color: var(--royal-black);
-            color: #efefef;
-            padding: 25px;
-            font-family: 'Courier New', monospace;
-            font-size: 18px;
-            line-height: 1.6;
-            border: none;
-            outline: none;
-            resize: none;
-            text-align: right;
-        }
-
-        /* شاشة النتائج (Console) */
-        #console {
-            height: 30%;
-            background-color: #050505;
-            border-top: 2px solid var(--gold);
-            padding: 20px;
-            overflow-y: auto;
-            color: var(--code-green);
-            font-family: monospace;
-            font-size: 14px;
-        }
-
-        /* زر التشغيل العائم */
-        .run-btn {
-            background-color: var(--gold);
-            color: var(--royal-black);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(197, 160, 89, 0.4);
-            transition: 0.3s;
-        }
-
-        .run-btn:hover {
-            box-shadow: 0 0 30px var(--gold);
-        }
-
-        .copy-btn {
-            background: transparent;
-            color: var(--gold);
-            border: 1px solid var(--gold);
-            padding: 5px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        .btn-run { background: var(--gold); color: black; border: none; padding: 15px 40px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 18px; transition: 0.3s; }
+        .btn-run:hover { transform: translateY(-3px); box-shadow: 0 5px 20px var(--gold); }
     </style>
 </head>
 <body>
 
 <header>
-    <h1 class="logo">MAJAL | مَجال</h1>
-    <button class="run-btn" onclick="runMajal()">تشغيل النظام ▶</button>
+    <div>
+        <h1 style="margin:0; color:var(--gold); font-size:28px;">MAJAL <span style="font-size:14px; color:white;">SYSTEM V4</span></h1>
+        <div class="system-status">STATUS: ONLINE | CORE: ACTIVE</div>
+    </div>
+    <button class="btn-run" onclick="MajalSystem.boot()">تشغيل النظام ▶</button>
 </header>
 
-<div class="quick-bar">
-    <button class="q-btn" onclick="insert('عرف ')">عرف</button>
-    <button class="q-btn" onclick="insert(' = ')">=</button>
-    <button class="q-btn" onclick="insert('اطبع ')">اطبع</button>
-    <button class="q-btn" onclick="insert('لو ')">لو</button>
-    <button class="q-btn" onclick="insert('احسب ')">احسب</button>
-    <button class="q-btn" onclick="insert('\"\"')">""</button>
-    <button class="copy-btn" onclick="copyCode()">نسخ 📋</button>
+<div class="main-container">
+    <textarea id="editor" spellcheck="false">
+# تأسيس نظام مَجال القوي
+عرف المستخدم = "سوهيل"
+عرف الرصيد = 5000
+عرف المشتريات = 1200
+
+احسب الرصيد - المشتريات
+اطبع "مرحباً يا " + المستخدم
+اطبع "رصيدك المتبقي هو الحسبة"
+    </textarea>
+
+    <div id="console">> نظام مَجال بانتظار إشارة البدء...</div>
 </div>
 
-<textarea id="editor" spellcheck="false" placeholder="ابدأ ببرمجة مَجال هنا...">
-عرف الاسم = "وسام"
-عرف السعر = 1500
-عرف الخصم = 200
-احسب السعر - الخصم
-اطبع "مرحباً يا " + الاسم
-</textarea>
-
-<div id="console">> نظام مَجال (النواة المحدثة) جاهز...</div>
-
 <script>
-    // ذاكرة اللغة (النواة)
-    let memory = {};
+    // --- النواة التأسيسية القوية (The Core System) ---
+    const MajalSystem = {
+        memory: {},
+        lastResult: 0,
 
-    // وظيفة إدخال النص السريع
-    function insert(text) {
-        const ed = document.getElementById('editor');
-        const start = ed.selectionStart;
-        const end = ed.selectionEnd;
-        ed.value = ed.value.substring(0, start) + text + ed.value.substring(end);
-        ed.focus();
-        ed.selectionStart = ed.selectionEnd = start + text.length;
-    }
+        boot: function() {
+            const code = document.getElementById('editor').value;
+            const consoleDiv = document.getElementById('console');
+            consoleDiv.innerHTML = "<div style='color:var(--gold)'>[SYSTEM BOOTING...]</div>";
+            this.memory = {}; // تصفير الذاكرة لضمان الصلابة
+            
+            const lines = code.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith("#"));
+            
+            lines.forEach(line => this.process(line, consoleDiv));
+            consoleDiv.innerHTML += "<div style='color:var(--gold)'>[PROCESS COMPLETED]</div>";
+        },
 
-    // وظيفة نسخ الكود
-    function copyCode() {
-        const ed = document.getElementById('editor');
-        ed.select();
-        document.execCommand('copy');
-        alert("تم نسخ الكود بنجاح! ✅");
-    }
-
-    // --- محرك مَجال (The Engine) ---
-    function runMajal() {
-        const code = document.getElementById('editor').value;
-        const consoleDiv = document.getElementById('console');
-        const lines = code.split('\n');
-        
-        consoleDiv.innerHTML = "<div style='color:white'>[بدء التنفيذ...]</div>";
-        memory = {}; // تصفير الذاكرة عند كل تشغيل جديد
-
-        lines.forEach(line => {
-            line = line.trim();
-            if (!line || line.startsWith("#")) return;
-
+        process: function(line, display) {
             try {
-                // 1. معالجة التعريف (Variables)
+                // معالجة التعريف الصلب
                 if (line.startsWith("عرف")) {
-                    let clean = line.replace("عرف", "").replace(/\s/g, "");
-                    let [name, val] = clean.split("=");
-                    // معالجة النصوص والأرقام
-                    memory[name] = eval(val.replace(/"/g, "'"));
-                    consoleDiv.innerHTML += `<div>✔️ تم تعريف المتغير [${name}]</div>`;
+                    let parts = line.replace("عرف", "").split("=");
+                    let name = parts[0].trim();
+                    let value = eval(parts[1].trim().replace(/"/g, "'"));
+                    this.memory[name] = value;
+                    display.innerHTML += `<div>⚙️ MEM_LOAD: [${name}] SUCCESS</div>`;
                 }
-
-                // 2. معالجة الحساب (Calculate)
+                
+                // معالجة الحساب وحفظ النتيجة في الذاكرة المؤقتة
                 else if (line.startsWith("احسب")) {
                     let exp = line.replace("احسب", "").trim();
-                    for (let key in memory) {
+                    for (let key in this.memory) {
                         let reg = new RegExp(`\\b${key}\\b`, 'g');
-                        exp = exp.replace(reg, memory[key]);
+                        exp = exp.replace(reg, this.memory[key]);
                     }
-                    consoleDiv.innerHTML += `<div style="color:var(--gold)">📊 نتيجة الحساب: ${eval(exp)}</div>`;
+                    this.lastResult = eval(exp);
+                    display.innerHTML += `<div>📊 CALC_RES: ${this.lastResult}</div>`;
                 }
 
-                // 3. معالجة الطباعة (Output)
+                // معالجة الطباعة الذكية
                 else if (line.startsWith("اطبع")) {
                     let exp = line.replace("اطبع", "").trim();
-                    // تعويض المتغيرات في جملة الطباعة
-                    for (let key in memory) {
+                    exp = exp.replace("الحسبة", this.lastResult); // ربط الحساب بالطباعة
+                    for (let key in this.memory) {
                         let reg = new RegExp(`\\b${key}\\b`, 'g');
-                        let val = typeof memory[key] === 'string' ? `'${memory[key]}'` : memory[key];
+                        let val = typeof this.memory[key] === 'string' ? `'${this.memory[key]}'` : this.memory[key];
                         exp = exp.replace(reg, val);
                     }
-                    consoleDiv.innerHTML += `<div style="color:#C5A059; font-weight:bold;">📄 ناتج مَجال: ${eval(exp)}</div>`;
+                    display.innerHTML += `<div style="color:#C5A059">> ${eval(exp)}</div>`;
                 }
             } catch (e) {
-                consoleDiv.innerHTML += `<div style="color:red">❌ خطأ في السطر: ${line}</div>`;
+                display.innerHTML += `<div style="color:red">⚠️ SYS_ERR: ${line}</div>`;
             }
-        });
-        consoleDiv.innerHTML += "<div style='color:white'>[تم الانتهاء]</div>";
-        consoleDiv.scrollTop = consoleDiv.scrollHeight;
-    }
+        }
+    };
 </script>
 
 </body>
