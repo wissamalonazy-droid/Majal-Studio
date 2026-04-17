@@ -1,1 +1,0 @@
-# Majal-Studio
