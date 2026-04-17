@@ -3,93 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAJAL STUDIO | ستوديو مَجال</title>
+    <title>MAJAL ENGINE | محرك مَجال العام</title>
     <style>
-        :root { --royal-black: #0B0B0B; --navy-blue: #0A1F44; --gold: #C5A059; --green: #4AF626; }
-        body { background: var(--royal-black); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; height: 100vh; display: flex; flex-direction: column; }
-        
-        .toolbar { background: var(--navy-blue); padding: 15px; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; }
-        .logo { color: var(--gold); font-weight: bold; font-size: 20px; letter-spacing: 2px; }
-
-        /* شريط الأوامر السريعة */
-        .quick-bar { background: #1a1a1a; padding: 10px; display: flex; gap: 8px; overflow-x: auto; border-bottom: 1px solid #333; }
-        .q-btn { background: var(--navy-blue); color: var(--gold); border: 1px solid var(--gold); padding: 5px 15px; border-radius: 5px; white-space: nowrap; cursor: pointer; font-size: 14px; }
-
-        #editor { flex: 1; background: var(--royal-black); color: #efefef; padding: 20px; font-family: 'Courier New', monospace; border: none; outline: none; font-size: 18px; line-height: 1.6; resize: none; text-align: right; }
-        
-        #console { height: 30%; background: #000; color: var(--green); padding: 15px; font-family: monospace; overflow-y: auto; border-top: 2px solid var(--gold); font-size: 14px; }
-        
+        :root { --royal-black: #0B0B0B; --navy-blue: #0A1F44; --gold: #C5A059; }
+        body { background: var(--royal-black); color: white; font-family: sans-serif; margin: 0; height: 100vh; display: flex; flex-direction: column; }
+        .toolbar { background: var(--navy-blue); padding: 15px; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; }
+        .quick-bar { background: #1a1a1a; padding: 10px; display: flex; gap: 5px; overflow-x: auto; }
+        .q-btn { background: #333; color: var(--gold); border: 1px solid var(--gold); padding: 5px 12px; border-radius: 4px; cursor: pointer; }
+        #editor { flex: 1; background: var(--royal-black); color: #fff; padding: 20px; font-family: monospace; font-size: 18px; border: none; outline: none; resize: none; text-align: right; }
+        #console { height: 35%; background: #000; color: #4AF626; padding: 15px; font-family: monospace; overflow-y: auto; border-top: 2px solid var(--gold); }
         .run-btn { background: var(--gold); color: black; border: none; padding: 10px 25px; border-radius: 50px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="toolbar">
-    <div class="logo">MAJAL | مَجال</div>
-    <button class="run-btn" onclick="executeMajal()">تشغيل النظام ▶</button>
+    <div style="color:var(--gold); font-weight:bold;">MAJAL STUDIO V3</div>
+    <button class="run-btn" onclick="runMajal()">تشغيل ▶</button>
 </div>
 
-<div class="quick-bar">
-    <button class="q-btn" onclick="addText('عرف ')">عرف</button>
-    <button class="q-btn" onclick="addText(' = ')">=</button>
-    <button class="q-btn" onclick="addText('اطبع ')">اطبع</button>
-    <button class="q-btn" onclick="addText('لو ')">لو</button>
-    <button class="q-btn" onclick="addText('احسب ')">احسب</button>
-    <button class="q-btn" onclick="copyCode()">نسخ 📋</button>
-</div>
+<div class="quick-bar" id="bar"></div>
 
 <textarea id="editor" spellcheck="false">
-عرف السعر = 1200
-لو السعر > 1000:
-   اطبع "السعر غالي"
-اطبع السعر
+عرف الاسم = "وسام"
+عرف العمر = 25
+لو العمر > 18:
+   اطبع "مرحباً بك يا " + الاسم
+اطبع "النظام جاهز"
 </textarea>
 
-<div id="console">> نظام مَجال بانتظار أوامرك...</div>
+<div id="console">> محرك مَجال العام جاهز...</div>
 
 <script>
+    // إنشاء الأزرار تلقائياً
+    const keywords = ['عرف', '=', 'لو', ':', 'اطبع', '"', '+', '>', '<'];
+    keywords.forEach(key => {
+        document.getElementById('bar').innerHTML += `<button class="q-btn" onclick="addText('${key} ')">${key}</button>`;
+    });
+
+    function addText(t) { document.getElementById('editor').value += t; }
+
     let memory = {};
 
-    function addText(text) {
-        const ed = document.getElementById('editor');
-        ed.value += text;
-        ed.focus();
-    }
-
-    function copyCode() {
-        const ed = document.getElementById('editor');
-        ed.select();
-        document.execCommand('copy');
-        alert("تم نسخ الكود بنجاح! ✅");
-    }
-
-    function executeMajal() {
+    function runMajal() {
         const code = document.getElementById('editor').value;
         const consoleDiv = document.getElementById('console');
         const lines = code.split('\n');
-        consoleDiv.innerHTML = "<span style='color:white'>[بدء التنفيذ...]</span>";
+        consoleDiv.innerHTML = "";
         
         lines.forEach(line => {
             line = line.trim();
             if (!line) return;
 
-            // منطق "عرف"
-            if (line.startsWith("عرف")) {
-                let parts = line.replace("عرف", "").replace(/ /g, "").split("=");
-                memory[parts[0]] = parseInt(parts[1]);
-                consoleDiv.innerHTML += `<br>🔹 سجلت المتغير: ${parts[0]}`;
-            }
-            
-            // منطق "لو" (البسيط)
-            else if (line.startsWith("لو")) {
-                consoleDiv.innerHTML += `<br>⚖️ جاري فحص الشرط...`;
-            }
+            try {
+                // 1. منطق التعريف (Variables)
+                if (line.startsWith("عرف")) {
+                    let parts = line.replace("عرف", "").split("=");
+                    let name = parts[0].trim();
+                    let val = eval(parts[1].trim().replace(/"/g, "'"));
+                    memory[name] = val;
+                }
+                
+                // 2. منطق الطباعة (Output)
+                else if (line.startsWith("اطبع")) {
+                    let content = line.replace("اطبع", "").trim();
+                    // تعويض المتغيرات في الطباعة
+                    for (let key in memory) {
+                        let regex = new RegExp(key, "g");
+                        content = content.replace(regex, typeof memory[key] === 'string' ? `'${memory[key]}'` : memory[key]);
+                    }
+                    let output = eval(content);
+                    consoleDiv.innerHTML += `<div>📄 ناتج: ${output}</div>`;
+                }
 
-            // منطق "اطبع"
-            else if (line.startsWith("اطبع")) {
-                let varName = line.replace("اطبع", "").trim().replace(/"/g, "");
-                let output = memory[varName] !== undefined ? memory[varName] : varName;
-                consoleDiv.innerHTML += `<br><span style="color:#C5A059">📄 ناتج مَجال: ${output}</span>`;
+                // 3. منطق الشرط (Logic)
+                else if (line.startsWith("لو")) {
+                    consoleDiv.innerHTML += `<div style="color:var(--gold)">⚖️ فحص منطقي: ${line}</div>`;
+                }
+            } catch (e) {
+                consoleDiv.innerHTML += `<div style="color:red">❌ خطأ في السطر: ${line}</div>`;
             }
         });
     }
