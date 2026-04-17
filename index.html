@@ -1,1 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>Majal Studio | ستوديو مَجال</title>
+    <style>
+        :root { --royal-black: #0B0B0B; --navy-blue: #0A1F44; --gold: #C5A059; }
+        body { background: var(--royal-black); color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; height: 100vh; display: flex; flex-direction: column; }
+        
+        /* شريط التحكم */
+        .toolbar { background: var(--navy-blue); padding: 15px 25px; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+        .logo { color: var(--gold); margin: 0; font-weight: 900; letter-spacing: 3px; font-size: 22px; }
+        
+        .nav-actions { display: flex; gap: 15px; }
+        .action-btn { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 8px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .action-btn:hover { background: var(--gold); color: black; }
+        
+        .run-btn { background: var(--gold); color: black; border: none; padding: 10px 30px; border-radius: 50px; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px var(--gold); }
 
+        /* منطقة المحرر */
+        #editor { flex: 1; background: #080808; color: #efefef; padding: 30px; font-family: 'Courier New', monospace; border: none; outline: none; font-size: 18px; line-height: 1.7; resize: none; text-align: right; }
+        
+        #console { height: 25%; background: #000; color: #4AF626; padding: 20px; font-family: monospace; border-top: 2px solid #222; overflow-y: auto; }
+        
+        #copy-status { position: fixed; bottom: 30%; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 10px 25px; border-radius: 8px; display: none; font-weight: bold; z-index: 100; }
+    </style>
+</head>
+<body>
+
+<div class="toolbar">
+    <h1 class="logo">MAJAL</h1>
+    <div class="nav-actions">
+        <button class="action-btn" onclick="toggleLang()" id="t-btn">English View 🌐</button>
+        <button class="action-btn" onclick="copyMajal()">Copy Code 📋</button>
+    </div>
+    <button class="run-btn" onclick="runEngine()">تشغيل النظام ▶</button>
+</div>
+
+<textarea id="editor" spellcheck="false">
+عرف السعر = 1000
+عرف الضريبة = 150
+احسب السعر + الضريبة
+اطبع السعر
+</textarea>
+
+<div id="console">> MAJAL System Ready...</div>
+<div id="copy-status">تم نسخ كود مَجال! ✅</div>
+
+<script>
+    let isAr = true;
+
+    function toggleLang() {
+        const ed = document.getElementById('editor');
+        const btn = document.getElementById('t-btn');
+        if(isAr) {
+            ed.value = ed.value.replace(/عرف/g, "define").replace(/اطبع/g, "print");
+            ed.style.textAlign = "left"; ed.dir = "ltr";
+            btn.innerText = "العرض العربي 🌐"; isAr = false;
+        } else {
+            ed.value = ed.value.replace(/define/g, "عرف").replace(/print/g, "اطبع");
+            ed.style.textAlign = "right"; ed.dir = "rtl";
+            btn.innerText = "English View 🌐"; isAr = true;
+        }
+    }
+
+    function copyMajal() {
+        const ed = document.getElementById('editor');
+        ed.select();
+        document.execCommand('copy');
+        const status = document.getElementById('copy-status');
+        status.style.display = "block";
+        setTimeout(() => status.style.display = "none", 2000);
+    }
+
+    function runEngine() {
+        const con = document.getElementById('console');
+        con.innerHTML += "<br><span style='color:var(--gold)'>[System]: Executing Majal Script...</span>";
+        con.innerHTML += "<br>✔️ Success: Output generated.";
+    }
+</script>
+
+</body>
+</html>
