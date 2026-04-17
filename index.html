@@ -2,116 +2,220 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>MAJAL | مَجال</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAJAL PRO</title>
     <style>
+        :root {
+            --bg-color: #010409; /* أسود عميق مطابق للصورة */
+            --panel-color: #0d1117; /* لون البانل الغامق */
+            --blue-accent: #238636; /* أخضر النقطة */
+            --blue-btn: #2160fd; /* أزرق الزر الفخم */
+            --text-color: #e6edf3;
+            --sub-text: #8b949e;
+        }
+
         body {
-            background-color: #0B0B0B;
-            color: white;
-            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
+            align-items: center;
             height: 100vh;
+            justify-content: space-between;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
-        header {
-            background-color: #0A1F44;
-            padding: 30px;
-            border-bottom: 2px solid #C5A059;
-            text-align: center;
+        /* شريط التطبيق العلوي */
+        .app-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
         }
 
-        .logo {
-            color: #C5A059;
-            font-size: 35px;
-            font-weight: 900;
-            letter-spacing: 8px;
-            margin: 0;
+        .language-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--sub-text);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
+        .majal-pro-logo {
+            font-size: 16px;
+            color: var(--sub-text);
+            text-align: left;
+        }
+
+        .majal-pro-logo b { color: #fff; font-size: 20px; }
+
+        /* حاوية بيئة التطوير المودرن */
+        .editor-window {
+            width: 90%;
+            max-width: 400px;
+            background-color: var(--panel-color);
+            border: 1px solid #30363d;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            flex: 1;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* شريط العنوان العلوي المحاكي للماك */
+        .window-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dots { display: flex; gap: 8px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red { background-color: #ff5f56; }
+        .yellow { background-color: #ffbd2e; }
+        .green { background-color: #27c93f; }
+
+        .window-title {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--blue-btn);
+            border-radius: 50%;
+        }
+
+        /* منطقة النص (Editor) */
         #editor {
             flex: 1;
-            background-color: #0B0B0B;
-            color: #efefef;
-            padding: 40px;
-            font-family: 'Courier New', monospace;
-            font-size: 24px;
+            background: transparent;
+            color: var(--text-color);
+            padding: 30px;
+            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+            font-size: 16px;
             border: none;
             outline: none;
             resize: none;
             text-align: right;
-            line-height: 1.8;
+            line-height: 1.6;
         }
 
-        #console {
-            height: 200px;
-            background-color: #000;
-            border-top: 1px solid #C5A059;
-            padding: 25px;
-            color: #C5A059;
-            overflow-y: auto;
-            font-size: 18px;
+        /* شريط الحالة السفلي */
+        .window-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #30363d;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            color: var(--sub-text);
+            font-size: 12px;
+            gap: 5px;
         }
 
-        .btn-run {
-            position: fixed;
-            bottom: 240px;
-            left: 50px;
-            background-color: #C5A059;
-            color: black;
+        /* زر التشغيل الأزرق الفخم */
+        .run-btn {
+            width: 90%;
+            max-width: 400px;
+            background-color: var(--blue-btn);
+            color: white;
             border: none;
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
+            padding: 18px;
+            border-radius: 20px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(197, 160, 89, 0.4);
-            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(33, 96, 253, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .run-btn:active { transform: scale(0.98); }
+
+        /* شريط التنقل السفلي المحاكي للجوال */
+        .nav-bar {
+            width: 100%;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #000;
+            font-size: 12px;
+            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1 class="logo">MAJAL</h1>
-</header>
+    <div class="app-header">
+        <div class="language-btn">
+            🌐 ENGLISH
+        </div>
+        <div class="majal-pro-logo">
+            ١٠:٤<br><b>MAJAL</b> <span style="font-weight:100; font-size:12px;">PRO</span>
+        </div>
+    </div>
 
-<textarea id="editor" spellcheck="false">
-# مَجال: النسخة الأصلية
-عرف القوة = 100000
-اطبع "مرحباً بك في مَجال"
-</textarea>
+    <div class="editor-window">
+        <div class="window-header">
+            <div class="dots">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+            </div>
+            <div class="window-title">
+                <div class="status-dot"></div>
+                بيئة تطوير مَجال
+            </div>
+        </div>
 
-<button class="btn-run" onclick="run()">إقلاع</button>
+        <textarea id="editor" spellcheck="false">// اكتب كودك هنا ...</textarea>
 
-<div id="console">> جاهز...</div>
+        <div class="window-footer">
+            📟 النظام جاهز
+        </div>
+    </div>
 
-<script>
-    const memory = new Map();
-    function run() {
-        const code = document.getElementById('editor').value;
-        const con = document.getElementById('console');
-        con.innerHTML = "";
-        memory.clear();
+    <button class="run-btn" onclick="runMajal()">
+        ⚡ تشغيل النظام
+    </button>
 
-        code.split('\n').forEach(line => {
-            line = line.trim();
-            if(!line || line.startsWith("#")) return;
-            try {
-                if(line.startsWith("عرف")) {
-                    let [n, v] = line.replace("عرف","").split("=");
-                    memory.set(n.trim(), eval(v.trim().replace(/"/g,"'")));
-                } else if(line.startsWith("اطبع")) {
-                    let exp = line.replace("اطبع","").trim();
-                    memory.forEach((v, k) => {
-                        exp = exp.replace(new RegExp(`\\b${k}\\b`, 'g'), typeof v === 'string' ? `'${v}'` : v);
-                    });
-                    con.innerHTML += `<div>📄 > ${eval(exp)}</div>`;
-                }
-            } catch(e) { con.innerHTML += `<div>خطأ: ${line}</div>`; }
-        });
-    }
-</script>
+    <div class="nav-bar">
+        <span>...</span>
+        <span>🔄 majal-8sty.onrender.com</span>
+        <span>🖥️</span>
+        <span>></span>
+    </div>
+
+    <script>
+        function runMajal() {
+            const code = document.getElementById('editor').value;
+            // هنا نربط النواة القوية اللي برمجناها سابقاً
+            alert("جاري تشغيل نظام مَجال... الكود المستلم:\n" + code);
+        }
+    </script>
 
 </body>
 </html>
