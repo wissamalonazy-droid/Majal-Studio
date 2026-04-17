@@ -2,86 +2,84 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>MAJAL | المحرك الجبار</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAJAL PRO | NUCLEUS v15 (Independent)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
     <style>
-        :root { --bg: #010409; --gold: #64FFDA; --gray: #8b949e; }
-        body { background: var(--bg); color: white; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        
-        header { padding: 20px 40px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 24px; font-weight: bold; letter-spacing: 3px; color: var(--gold); }
-
-        .container { flex: 1; display: flex; padding: 20px; gap: 20px; }
-        textarea { flex: 1; background: #0d1117; color: #c9d1d9; border: 1px solid #30363d; border-radius: 12px; padding: 25px; font-size: 18px; font-family: 'Consolas', monospace; outline: none; resize: none; }
-        
-        #render { flex: 1; background: #fff; border-radius: 12px; overflow: auto; position: relative; }
-
-        .footer { padding: 20px; text-align: center; }
-        .run-btn { background: var(--gold); color: #010409; border: none; padding: 15px 60px; font-size: 20px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(100, 255, 218, 0.2); }
-        .run-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(100, 255, 218, 0.4); }
+        :root { --primary: #0ea5e9; --bg: #020617; }
+        body { background: radial-gradient(circle at top right, #0f172a, var(--bg)); color: #f8fafc; font-family: 'Tajawal', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        .glass { background: rgba(15, 23, 42, 0.5); backdrop-filter: blur(20px); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 24px; }
+        #codeEditor { font-family: 'Fira Code', monospace; background: transparent; color: #93c5fd; width: 100%; padding: 25px; outline: none; border: none; font-size: 16px; line-height: 1.6; resize: none; flex: 1; }
+        .preview-wrapper { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; background: #0f172a; overflow: auto; }
+        .iframe-container { background: white; box-shadow: 0 0 100px rgba(0,0,0,0.7); border: none; transition: all 0.4s ease; }
+        .mobile-view { width: 375px !important; height: 667px !important; }
+        .tablet-view { width: 768px !important; height: 1024px !important; }
+        .desktop-view { width: 100% !important; height: 100% !important; }
     </style>
 </head>
-<body>
+<body x-data="{ view: 'desktop' }">
 
-<header>
-    <div class="logo">MAJAL PRO</div>
-    <div style="color: var(--gray); font-size: 12px;">ENGINE_STATUS: STABLE</div>
-</header>
-
-<div class="container">
-    <textarea id="editor" spellcheck="false" placeholder="// اكتب كودك هنا...">
-عرف العنوان = "نظام وسام الجبار"
-
-# ابدأ البناء باللغة الأم مباشرة
-<div style="padding: 50px; text-align: center; font-family: sans-serif;">
-    <h1 style="color: #0d1117;"> {العنوان} </h1>
-    <p style="color: #666;"> مَجال الآن تفهم اللغة الأم بطلاقة تامة </p>
-    <button style="background: #238636; color: white; border: none; padding: 10px 20px; border-radius: 6px;">زر تفاعلي</button>
-</div>
-    </textarea>
-    
-    <div id="render">
+    <header class="h-[75px] flex items-center justify-between px-8 bg-black/40 border-b border-white/5 backdrop-blur-md">
+        <h1 class="text-xl font-black text-blue-500 italic tracking-tighter">MAJAL <span class="text-white font-light text-sm">PRO</span></h1>
+        <div class="flex bg-white/5 p-1.5 rounded-2xl border border-white/10 gap-1">
+            <button @click="view = 'mobile'" :class="view === 'mobile' ? 'bg-blue-600 text-white' : 'text-gray-400'" class="px-4 py-1.5 rounded-xl text-[10px] font-bold transition-all">📱 Mobile</button>
+            <button @click="view = 'tablet'" :class="view === 'tablet' ? 'bg-blue-600 text-white' : 'text-gray-400'" class="px-4 py-1.5 rounded-xl text-[10px] font-bold transition-all">📟 Tablet</button>
+            <button @click="view = 'desktop'" :class="view === 'desktop' ? 'bg-blue-600 text-white' : 'text-gray-400'" class="px-4 py-1.5 rounded-xl text-[10px] font-bold transition-all">💻 Desktop</button>
         </div>
-</div>
+    </header>
 
-<div class="footer">
-    <button class="run-btn" onclick="executeMajal()">تشغيل المحرك 🚀</button>
-</div>
+    <main class="flex-1 p-6 flex flex-col gap-5 overflow-hidden">
+        <div class="glass flex-1 flex flex-col overflow-hidden shadow-2xl">
+            <div class="p-4 border-b border-white/5 flex justify-between items-center bg-white/5">
+                <span class="text-[11px] text-blue-400 font-black uppercase tracking-widest">محرك البناء السيادي</span>
+            </div>
+            <textarea id="codeEditor" spellcheck="false" placeholder="// اكتب كودك هنا...">
+عرف اسم_الموقع = "موقع مَجال الجديد"
+<div style="padding:100px; text-align:center; font-family:sans-serif;">
+   <h1 style="color:#2563eb; font-size:48px;">{اسم_الموقع}</h1>
+   <p>تم التشغيل بنجاح من النواة المدمجة ✅</p>
+</div></textarea>
+            <div id="statusBar" class="p-4 bg-black/40 text-xs border-t border-white/5 text-blue-300 font-mono">📟 النظام جاهز</div>
+        </div>
+        <button onclick="runMajalLocal()" class="bg-blue-600 hover:bg-blue-500 p-5 rounded-[2rem] font-black text-xl shadow-2xl shadow-blue-900/40 transition-all">تشغيل النظام ⚡</button>
+    </main>
 
-<script>
-    const registry = new Map();
+    <div id="previewModal" class="fixed inset-0 z-[100] bg-slate-950 hidden flex flex-col">
+        <div class="w-full p-4 bg-black flex justify-between items-center border-b border-white/10">
+            <span class="text-blue-500 font-black text-xs uppercase tracking-widest">المعاينة المباشرة</span>
+            <button onclick="document.getElementById('previewModal').classList.add('hidden')" class="text-white text-4xl">&times;</button>
+        </div>
+        <div class="preview-wrapper">
+            <iframe id="livePreview" class="iframe-container" :class="view === 'mobile' ? 'mobile-view' : (view === 'tablet' ? 'tablet-view' : 'desktop-view')"></iframe>
+        </div>
+    </div>
 
-    function executeMajal() {
-        const rawCode = document.getElementById('editor').value;
-        const renderArea = document.getElementById('render');
-        renderArea.innerHTML = "";
-        registry.clear();
+    <script>
+        const registry = new Map();
+        function runMajalLocal() {
+            const code = document.getElementById('codeEditor').value;
+            const preview = document.getElementById('livePreview');
+            const statusBar = document.getElementById('statusBar');
+            registry.clear();
 
-        const lines = rawCode.split('\n');
-        let htmlMode = false;
-        let htmlBuffer = "";
+            let finalOutput = "";
+            code.split('\n').forEach(line => {
+                if (line.trim().startsWith("عرف")) {
+                    let [n, v] = line.replace("عرف", "").split("=");
+                    registry.set(n.trim(), eval(v.trim().replace(/"/g, "'")));
+                } else { finalOutput += line + "\n"; }
+            });
 
-        lines.forEach(line => {
-            let cleanLine = line.trim();
-            
-            // 1. معالجة المتغيرات (عرف)
-            if (cleanLine.startsWith("عرف")) {
-                let [name, val] = cleanLine.replace("عرف", "").split("=");
-                registry.set(name.trim(), eval(val.trim().replace(/"/g, "'")));
-            } 
-            // 2. معالجة الأكواد الأم (HTML/CSS)
-            else {
-                htmlBuffer += line + "\n";
-            }
-        });
+            registry.forEach((v, k) => { finalOutput = finalOutput.replace(new RegExp(`{${k}}`, 'g'), v); });
 
-        // استبدال المتغيرات داخل الكود الأم
-        registry.forEach((v, k) => {
-            htmlBuffer = htmlBuffer.replace(new RegExp(`{${k}}`, 'g'), v);
-        });
-
-        renderArea.innerHTML = htmlBuffer;
-    }
-</script>
-
+            const doc = preview.contentWindow.document;
+            doc.open(); doc.write(finalOutput); doc.close();
+            document.getElementById('previewModal').classList.remove('hidden');
+            statusBar.innerText = "📟 تم التحديث بنجاح";
+        }
+    </script>
 </body>
 </html>
