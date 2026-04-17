@@ -1,47 +1,74 @@
-# --- محرك لغة مَجال العالمي (Majal Universal Engine) ---
+import re
 
-memory = {}
+class MajalEngine:
+    def __init__(self):
+        # ذاكرة النظام الفولاذية
+        self.variables = {}
+        self.last_calc = 0
 
-def majal_interpreter(code_text):
-    lines = code_text.strip().split('\n')
-    results = []
+    def run(self, code):
+        lines = code.strip().split('\n')
+        for line_num, line in enumerate(lines, 1):
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            
+            try:
+                self.execute(line)
+            except Exception as e:
+                print(f"❌ خطأ في محرك مَجال (سطر {line_num}): {e}")
 
-    for line in lines:
-        line = line.strip()
-        if not line or line.startswith("#"): continue
-        
-        # دعم العربي والإنجليزي (عرف / define)
-        if line.startswith("عرف") or line.lower().startswith("define"):
-            content = line.replace("عرف", "").replace("define", "").replace(" ", "")
-            name, val = content.split("=")
-            memory[name] = int(val)
-            results.append(f"✔️ [Majal]: Registered '{name}' = {val}")
+    def execute(self, line):
+        # 1. نظام التعريف (Variable Assignment)
+        if "عرف" in line:
+            # استخدام Regex لضمان دقة استخراج الأسماء والقيم
+            match = re.match(r"عرف\s+(\w+)\s*=\s*(.*)", line)
+            if match:
+                var_name = match.group(1)
+                var_value = eval(self.prepare_expression(match.group(2)))
+                self.variables[var_name] = var_value
+                return
 
-        # دعم العربي والإنجليزي (اطبع / print)
-        elif line.startswith("اطبع") or line.lower().startswith("print"):
-            var_name = line.replace("اطبع", "").replace("print", "").strip()
-            val = memory.get(var_name, "Error: Not Found!")
-            results.append(f"📄 [Output]: {val}")
+        # 2. نظام المنطق (Conditional Logic)
+        if line.startswith("لو"):
+            condition = line.replace("لو", "").replace(":", "").strip()
+            if eval(self.prepare_expression(condition)):
+                # هنا يمكن تطوير النظام ليدعم البلوكات البرمجية لاحقاً
+                pass
 
-        # دعم الحساب (احسب / calculate)
-        elif line.startswith("احسب") or line.lower().startswith("calculate"):
-            expr = line.replace("احسب", "").replace("calculate", "").strip()
-            # تبسيط العمليات الحسابية
-            for op in ['+', '-', '*', '/']:
-                if op in expr:
-                    parts = expr.split(op)
-                    v1 = memory.get(parts[0].strip(), int(parts[0].strip()) if parts[0].strip().isdigit() else 0)
-                    v2 = int(parts[1].strip())
-                    res = eval(f"{v1} {op} {v2}")
-                    results.append(f"📊 [Calc]: {res}")
-                    break
-    return "\n".join(results)
+        # 3. نظام الحساب (Math Core)
+        if line.startswith("احسب"):
+            expr = line.replace("احسب", "").strip()
+            self.last_calc = eval(self.prepare_expression(expr))
+            print(f"📊 [CORE_MATH]: {self.last_calc}")
+            return
 
-# تجربة المحرك باللغتين
-test_code = """
-عرف السعر = 1000
-define discount = 200
-احسب السعر - 200
-print السعر
+        # 4. نظام الطباعة (Output Interface)
+        if line.startswith("اطبع"):
+            content = line.replace("اطبع", "").strip()
+            # دعم كلمة "الحسبة" للربط مع المحرك الحسابي
+            content = content.replace("الحسبة", str(self.last_calc))
+            result = eval(self.prepare_expression(content))
+            print(f"📄 [MAJAL_OUT]: {result}")
+
+    def prepare_expression(self, expr):
+        """تجهيز التعبير البرمجي باستبدال متغيرات مَجال بقيمها الحقيقية"""
+        for var, val in self.variables.items():
+            # استبدال دقيق لضمان عدم تداخل الأسماء
+            expr = re.sub(r'\b' + var + r'\b', str(repr(val) if isinstance(val, str) else val), expr)
+        return expr
+
+# --- تشغيل تجريبي للنواة الصلبة ---
+engine = MajalEngine()
+majal_code = """
+# تأسيس قوي لمحرك مَجال
+عرف المستخدم = "وسام"
+عرف رصيد_البداية = 5000
+عرف المشتريات = 1250
+
+احسب رصيد_البداية - المشتريات
+اطبع "مرحباً يا " + المستخدم
+اطبع "رصيدك المتبقي حالياً هو: " + str(الحسبة)
 """
-print(majal_interpreter(test_code))
+
+engine.run(majal_code)
