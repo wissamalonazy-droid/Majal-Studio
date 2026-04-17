@@ -2,220 +2,90 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAJAL PRO</title>
+    <title>Majal 2.0 | منصة لغة مجال</title>
     <style>
         :root {
-            --bg-color: #010409; /* أسود عميق مطابق للصورة */
-            --panel-color: #0d1117; /* لون البانل الغامق */
-            --blue-accent: #238636; /* أخضر النقطة */
-            --blue-btn: #2160fd; /* أزرق الزر الفخم */
-            --text-color: #e6edf3;
-            --sub-text: #8b949e;
+            --bg: #020C1B;
+            --navy: #0A192F;
+            --gold: #64FFDA;
+            --white: #E6F1FF;
         }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100vh;
-            justify-content: space-between;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        /* شريط التطبيق العلوي */
-        .app-header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-        }
-
-        .language-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            color: var(--sub-text);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .majal-pro-logo {
-            font-size: 16px;
-            color: var(--sub-text);
-            text-align: left;
-        }
-
-        .majal-pro-logo b { color: #fff; font-size: 20px; }
-
-        /* حاوية بيئة التطوير المودرن */
-        .editor-window {
-            width: 90%;
-            max-width: 400px;
-            background-color: var(--panel-color);
-            border: 1px solid #30363d;
-            border-radius: 24px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            flex: 1;
-            margin: 20px 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        /* شريط العنوان العلوي المحاكي للماك */
-        .window-header {
-            padding: 15px 20px;
-            border-bottom: 1px solid #30363d;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .dots { display: flex; gap: 8px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; }
-        .red { background-color: #ff5f56; }
-        .yellow { background-color: #ffbd2e; }
-        .green { background-color: #27c93f; }
-
-        .window-title {
-            color: #fff;
-            font-size: 14px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: var(--blue-btn);
-            border-radius: 50%;
-        }
-
-        /* منطقة النص (Editor) */
-        #editor {
-            flex: 1;
-            background: transparent;
-            color: var(--text-color);
-            padding: 30px;
-            font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
-            font-size: 16px;
-            border: none;
-            outline: none;
-            resize: none;
-            text-align: right;
-            line-height: 1.6;
-        }
-
-        /* شريط الحالة السفلي */
-        .window-footer {
-            padding: 15px 20px;
-            border-top: 1px solid #30363d;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            color: var(--sub-text);
-            font-size: 12px;
-            gap: 5px;
-        }
-
-        /* زر التشغيل الأزرق الفخم */
-        .run-btn {
-            width: 90%;
-            max-width: 400px;
-            background-color: var(--blue-btn);
-            color: white;
-            border: none;
-            padding: 18px;
-            border-radius: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(33, 96, 253, 0.3);
-            margin-bottom: 20px;
-        }
-
-        .run-btn:active { transform: scale(0.98); }
-
-        /* شريط التنقل السفلي المحاكي للجوال */
-        .nav-bar {
-            width: 100%;
-            background-color: #fff;
-            padding: 15px;
-            border-radius: 20px 20px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #000;
-            font-size: 12px;
-            box-sizing: border-box;
-        }
+        body { background: var(--bg); color: var(--white); font-family: sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        header { background: var(--navy); padding: 20px; text-align: center; border-bottom: 2px solid var(--gold); }
+        .container { display: flex; flex: 1; padding: 20px; gap: 20px; }
+        textarea { flex: 1; background: #112240; color: var(--gold); border: 1px solid var(--navy); border-radius: 10px; padding: 20px; font-size: 18px; font-family: monospace; outline: none; resize: none; }
+        #output { flex: 1; background: #000; color: #64FFDA; border-radius: 10px; padding: 20px; font-family: monospace; white-space: pre-wrap; border: 1px solid #333; overflow-y: auto; }
+        .controls { padding: 20px; text-align: center; }
+        button { background: var(--gold); color: var(--bg); border: none; padding: 15px 50px; font-size: 20px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        button:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--gold); }
     </style>
 </head>
 <body>
-
-    <div class="app-header">
-        <div class="language-btn">
-            🌐 ENGLISH
-        </div>
-        <div class="majal-pro-logo">
-            ١٠:٤<br><b>MAJAL</b> <span style="font-weight:100; font-size:12px;">PRO</span>
-        </div>
+    <header><h1>MAJAL 2.0 <small>المحيط البرمجي</small></h1></header>
+    <div class="container">
+        <textarea id="code" placeholder="# اكتب كود مجال هنا...">عرف المستخدم = "وسام"
+اطبع "مرحباً بك في المحيط البرمجي"
+اطبع المستخدم</textarea>
+        <div id="output"># النتيجة ستظهر هنا فور التشغيل...</div>
     </div>
-
-    <div class="editor-window">
-        <div class="window-header">
-            <div class="dots">
-                <div class="dot red"></div>
-                <div class="dot yellow"></div>
-                <div class="dot green"></div>
-            </div>
-            <div class="window-title">
-                <div class="status-dot"></div>
-                بيئة تطوير مَجال
-            </div>
-        </div>
-
-        <textarea id="editor" spellcheck="false">// اكتب كودك هنا ...</textarea>
-
-        <div class="window-footer">
-            📟 النظام جاهز
-        </div>
-    </div>
-
-    <button class="run-btn" onclick="runMajal()">
-        ⚡ تشغيل النظام
-    </button>
-
-    <div class="nav-bar">
-        <span>...</span>
-        <span>🔄 majal-8sty.onrender.com</span>
-        <span>🖥️</span>
-        <span>></span>
+    <div class="controls">
+        <button onclick="runCode()">تشغيل المحرك 🚀</button>
     </div>
 
     <script>
-        function runMajal() {
-            const code = document.getElementById('editor').value;
-            // هنا نربط النواة القوية اللي برمجناها سابقاً
-            alert("جاري تشغيل نظام مَجال... الكود المستلم:\n" + code);
+        // الذاكرة الداخلية (النواة المدمجة)
+        const memory = new Map();
+
+        function runCode() {
+            const code = document.getElementById('code').value;
+            const output = document.getElementById('output');
+            output.innerText = ""; // مسح النتائج السابقة
+            memory.clear();
+
+            const lines = code.split('\n');
+
+            lines.forEach((line, index) => {
+                line = line.trim();
+                if (!line || line.startsWith("#")) return;
+
+                try {
+                    // معالجة التعريف (عرف)
+                    if (line.startsWith("عرف")) {
+                        let [name, val] = line.replace("عرف", "").split("=");
+                        let cleanName = name.trim();
+                        let cleanVal = eval(this.translateVars(val.trim()));
+                        memory.set(cleanName, cleanVal);
+                    } 
+                    // معالجة الطباعة (اطبع)
+                    else if (line.startsWith("اطبع")) {
+                        let expression = line.replace("اطبع", "").trim();
+                        let result = eval(this.translateVars(expression));
+                        output.innerText += `📄 > ${result}\n`;
+                    }
+                } catch (e) {
+                    output.innerText += `❌ خطأ في السطر ${index + 1}: ${line}\n`;
+                }
+            });
+
+            if (output.innerText === "") {
+                output.innerText = "# اكتمل التنفيذ (لا توجد مخرجات)";
+            }
+        }
+
+        // مترجم المتغيرات الداخلي
+        function translateVars(expr) {
+            let translated = expr;
+            // ترتيب المتغيرات من الأطول للأقصر لضمان دقة الاستبدال
+            const sortedKeys = Array.from(memory.keys()).sort((a, b) => b.length - a.length);
+            
+            sortedKeys.forEach(key => {
+                const val = memory.get(key);
+                const safeVal = typeof val === 'string' ? `'${val}'` : val;
+                const regex = new RegExp(`\\b${key}\\b`, 'g');
+                translated = translated.replace(regex, safeVal);
+            });
+            return translated;
         }
     </script>
-
 </body>
 </html>
