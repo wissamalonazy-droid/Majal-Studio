@@ -2,73 +2,92 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Majal 2.0 | منصة لغة مجال</title>
+    <title>Majal 2.0 | منصة الإبداع الحر</title>
     <style>
-        :root {
-            --bg: #020C1B;
-            --navy: #0A192F;
-            --gold: #64FFDA;
-            --white: #E6F1FF;
-        }
+        :root { --bg: #020C1B; --navy: #0A192F; --gold: #64FFDA; --white: #E6F1FF; }
         body { background: var(--bg); color: var(--white); font-family: sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
         header { background: var(--navy); padding: 20px; text-align: center; border-bottom: 2px solid var(--gold); }
-        .container { display: flex; flex: 1; padding: 20px; gap: 20px; }
-        textarea { flex: 1; background: #112240; color: var(--gold); border: 1px solid var(--navy); border-radius: 10px; padding: 20px; font-size: 18px; font-family: monospace; outline: none; }
-        #output { flex: 1; background: #000; color: #00ff00; border-radius: 10px; padding: 20px; font-family: monospace; white-space: pre-wrap; border: 1px solid #333; }
+        .container { display: flex; flex: 1; padding: 20px; gap: 20px; overflow: hidden; }
+        textarea { flex: 1; background: #112240; color: var(--gold); border: 1px solid var(--navy); border-radius: 10px; padding: 20px; font-size: 18px; font-family: monospace; outline: none; resize: none; }
+        #output { flex: 1; background: #fff; color: #000; border-radius: 10px; padding: 0; overflow-y: auto; border: 5px solid var(--navy); position: relative; }
         .controls { padding: 20px; text-align: center; }
         button { background: var(--gold); color: var(--bg); border: none; padding: 15px 50px; font-size: 20px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.3s; }
-        button:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--gold); }
+        button:hover { box-shadow: 0 0 20px var(--gold); }
+        
+        /* شاشة فارغة تماماً للمبرمج ليتفنن فيها */
+        #render-area { width: 100%; height: 100%; }
     </style>
 </head>
 <body>
-    <header><h1>MAJAL 2.0 <small>المحيط البرمجي</small></h1></header>
+    <header><h1>MAJAL 2.0 <small>مختبر الإبداع</small></h1></header>
     <div class="container">
-        <textarea id="code" placeholder="# اكتب كود مجال هنا..."></textarea>
-        <div id="output"># النتيجة ستظهر هنا...</div>
+        <textarea id="code" placeholder="# تفنن بموقعك هنا...">
+# ابدأ ببناء هيكلك الخاص
+هيكل "div" كلاس "box" نص "مرحباً بك في موقعي الخاص"
+صمم ".box" خلفية "navy" لون "white" حواف "20px" padding "30px"
+
+# أضف عناصرك بحرية
+هيكل "button" نص "اضغط هنا"
+صمم "button" خلفية "#64FFDA" لون "#020C1B" font-weight "bold"</textarea>
+        <div id="output">
+            <div id="render-area"></div>
+        </div>
     </div>
     <div class="controls">
-        <button onclick="runCode()">تشغيل المحرك 🚀</button>
+        <button onclick="runCode()">تشغيل الإبداع 🚀</button>
     </div>
 
     <script>
-        // الذاكرة الداخلية للغة
-        const memory = new Map();
-
         function runCode() {
             const code = document.getElementById('code').value;
-            const output = document.getElementById('output');
-            output.innerText = ""; // تصفير الشاشة
-            memory.clear();
-
-            const lines = code.split('\n');
+            const renderArea = document.getElementById('render-area');
+            renderArea.innerHTML = ""; // مسح كل شيء للبدء من جديد
             
-            lines.forEach(line => {
+            const styles = document.createElement('style');
+            let cssContent = "";
+
+            code.split('\n').forEach(line => {
                 line = line.trim();
                 if (!line || line.startsWith("#")) return;
 
-                try {
-                    // معالجة (عرف)
-                    if (line.startsWith("عرف")) {
-                        let [name, val] = line.replace("عرف", "").split("=");
-                        let cleanName = name.trim();
-                        // استبدال المتغيرات المخزنة قبل التنفيذ
-                        let processedVal = val.trim();
-                        memory.forEach((v, k) => { processedVal = processedVal.replace(new RegExp(`\\b${k}\\b`, 'g'), v); });
-                        memory.set(cleanName, eval(processedVal.replace(/"/g, "'")));
-                    } 
-                    // معالجة (اطبع)
-                    else if (line.startsWith("اطبع")) {
-                        let exp = line.replace("اطبع", "").trim();
-                        memory.forEach((v, k) => { 
-                            let safeV = typeof v === 'string' ? `'${v}'` : v;
-                            exp = exp.replace(new RegExp(`\\b${k}\\b`, 'g'), safeV); 
-                        });
-                        output.innerText += "> " + eval(exp) + "\n";
+                // 1. أمر الهيكلة (HTML Builder)
+                if (line.startsWith("هيكل")) {
+                    const tag = line.match(/"([^"]+)"/g);
+                    if (tag) {
+                        const el = document.createElement(tag[0].replace(/"/g, ''));
+                        // إذا فيه نص
+                        const textMatch = line.match(/نص "([^"]+)"/);
+                        if (textMatch) el.innerText = textMatch[1];
+                        // إذا فيه كلاس
+                        const classMatch = line.match(/كلاس "([^"]+)"/);
+                        if (classMatch) el.className = classMatch[1];
+                        
+                        renderArea.appendChild(el);
                     }
-                } catch (e) {
-                    output.innerText += "❌ خطأ في السطر: " + line + "\n";
+                }
+
+                // 2. أمر التصميم (CSS Builder)
+                if (line.startsWith("صمم")) {
+                    const selector = line.match(/"([^"]+)"/)[1];
+                    let rules = "";
+                    const props = {
+                        "خلفية": "background",
+                        "لون": "color",
+                        "حواف": "border-radius",
+                        "padding": "padding",
+                        "font-weight": "font-weight"
+                    };
+                    
+                    for (let key in props) {
+                        const match = line.match(new RegExp(`${key} "([^"]+)"`));
+                        if (match) rules += `${props[key]}: ${match[1]}; `;
+                    }
+                    cssContent += `${selector} { ${rules} }\n`;
                 }
             });
+            
+            styles.innerHTML = cssContent;
+            renderArea.appendChild(styles);
         }
     </script>
 </body>
