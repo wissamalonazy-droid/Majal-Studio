@@ -2,73 +2,86 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Majal 2.0 | محرك اللغة الأم</title>
+    <title>MAJAL | المحرك الجبار</title>
     <style>
-        :root { --bg: #020C1B; --navy: #0A192F; --gold: #64FFDA; --white: #E6F1FF; }
-        body { background: var(--bg); color: var(--white); font-family: sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        header { background: var(--navy); padding: 20px; text-align: center; border-bottom: 2px solid var(--gold); }
-        .container { display: flex; flex: 1; padding: 20px; gap: 20px; overflow: hidden; }
-        textarea { flex: 1; background: #112240; color: var(--gold); border: 1px solid var(--navy); border-radius: 10px; padding: 20px; font-size: 18px; font-family: 'Courier New', monospace; outline: none; resize: none; }
-        #output { flex: 1; background: #fff; border-radius: 10px; overflow-y: auto; border: 3px solid var(--gold); position: relative; }
-        .controls { padding: 15px; text-align: center; }
-        button { background: var(--gold); color: var(--bg); border: none; padding: 12px 40px; font-size: 18px; font-weight: bold; border-radius: 5px; cursor: pointer; }
+        :root { --bg: #010409; --gold: #64FFDA; --gray: #8b949e; }
+        body { background: var(--bg); color: white; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        
+        header { padding: 20px 40px; border-bottom: 1px solid #30363d; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; letter-spacing: 3px; color: var(--gold); }
+
+        .container { flex: 1; display: flex; padding: 20px; gap: 20px; }
+        textarea { flex: 1; background: #0d1117; color: #c9d1d9; border: 1px solid #30363d; border-radius: 12px; padding: 25px; font-size: 18px; font-family: 'Consolas', monospace; outline: none; resize: none; }
+        
+        #render { flex: 1; background: #fff; border-radius: 12px; overflow: auto; position: relative; }
+
+        .footer { padding: 20px; text-align: center; }
+        .run-btn { background: var(--gold); color: #010409; border: none; padding: 15px 60px; font-size: 20px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(100, 255, 218, 0.2); }
+        .run-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(100, 255, 218, 0.4); }
     </style>
 </head>
 <body>
-    <header><h1>MAJAL 2.0 <small>محرك اللغة الأم</small></h1></header>
-    <div class="container">
-        <textarea id="code" placeholder="# اكتب كود مَجال أو اللغة الأم هنا...">
-# تعريف متغير بمَجال
-عرف عنوان = "موقعي الاحترافي"
 
-# استخدام اللغة الأم (HTML) مباشرة داخل مَجال
-هيكل:
-<div style="padding: 40px; text-align: center; font-family: Arial;">
-    <h1 style="color: #0A192F;"> {عنوان} </h1>
-    <p> المبرمج هنا له الحرية المطلقة في كتابة أي كود </p>
-    <button onclick="alert('تم التشغيل')">زر تفاعلي</button>
+<header>
+    <div class="logo">MAJAL PRO</div>
+    <div style="color: var(--gray); font-size: 12px;">ENGINE_STATUS: STABLE</div>
+</header>
+
+<div class="container">
+    <textarea id="editor" spellcheck="false" placeholder="// اكتب كودك هنا...">
+عرف العنوان = "نظام وسام الجبار"
+
+# ابدأ البناء باللغة الأم مباشرة
+<div style="padding: 50px; text-align: center; font-family: sans-serif;">
+    <h1 style="color: #0d1117;"> {العنوان} </h1>
+    <p style="color: #666;"> مَجال الآن تفهم اللغة الأم بطلاقة تامة </p>
+    <button style="background: #238636; color: white; border: none; padding: 10px 20px; border-radius: 6px;">زر تفاعلي</button>
 </div>
-</textarea>
-        <div id="output">
-            <div id="canvas"></div>
+    </textarea>
+    
+    <div id="render">
         </div>
-    </div>
-    <div class="controls">
-        <button onclick="runMajal()">تشغيل النظام 🚀</button>
-    </div>
+</div>
 
-    <script>
-        const memory = new Map();
+<div class="footer">
+    <button class="run-btn" onclick="executeMajal()">تشغيل المحرك 🚀</button>
+</div>
 
-        function runMajal() {
-            const code = document.getElementById('code').value;
-            const canvas = document.getElementById('canvas');
-            canvas.innerHTML = ""; 
-            memory.clear();
+<script>
+    const registry = new Map();
 
-            // فصل الأكواد (منطق مَجال vs اللغة الأم)
-            const parts = code.split('هيكل:');
+    function executeMajal() {
+        const rawCode = document.getElementById('editor').value;
+        const renderArea = document.getElementById('render');
+        renderArea.innerHTML = "";
+        registry.clear();
+
+        const lines = rawCode.split('\n');
+        let htmlMode = false;
+        let htmlBuffer = "";
+
+        lines.forEach(line => {
+            let cleanLine = line.trim();
             
-            // 1. معالجة منطق مَجال (قبل الهيكل)
-            const logic = parts[0].split('\n');
-            logic.forEach(line => {
-                line = line.trim();
-                if (line.startsWith("عرف")) {
-                    let [n, v] = line.replace("عرف","").split("=");
-                    memory.set(n.trim(), eval(v.trim().replace(/"/g,"'")));
-                }
-            });
-
-            // 2. معالجة اللغة الأم (بعد كلمة هيكل:)
-            if (parts[1]) {
-                let rawHTML = parts[1].trim();
-                // استبدال المتغيرات الذكي داخل الكود الخام
-                memory.forEach((v, k) => {
-                    rawHTML = rawHTML.replace(new RegExp(`{${k}}`, 'g'), v);
-                });
-                canvas.innerHTML = rawHTML;
+            // 1. معالجة المتغيرات (عرف)
+            if (cleanLine.startsWith("عرف")) {
+                let [name, val] = cleanLine.replace("عرف", "").split("=");
+                registry.set(name.trim(), eval(val.trim().replace(/"/g, "'")));
+            } 
+            // 2. معالجة الأكواد الأم (HTML/CSS)
+            else {
+                htmlBuffer += line + "\n";
             }
-        }
-    </script>
+        });
+
+        // استبدال المتغيرات داخل الكود الأم
+        registry.forEach((v, k) => {
+            htmlBuffer = htmlBuffer.replace(new RegExp(`{${k}}`, 'g'), v);
+        });
+
+        renderArea.innerHTML = htmlBuffer;
+    }
+</script>
+
 </body>
 </html>
