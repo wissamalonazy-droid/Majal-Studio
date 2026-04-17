@@ -2,179 +2,115 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAJAL STUDIO | ستوديو مَجال</title>
+    <title>MAJAL | مَجال</title>
     <style>
-        :root {
-            --navy: #0A1F44;
-            --gold: #C5A059;
-            --black: #0B0B0B;
-            --terminal-green: #4AF626;
-        }
-
         body {
-            background-color: var(--black);
+            background-color: #0B0B0B;
             color: white;
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
             height: 100vh;
-            overflow: hidden;
         }
 
-        /* التصميم الملكي الأصلي */
         header {
-            background-color: var(--navy);
-            padding: 25px 30px;
-            border-bottom: 2px solid var(--gold);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+            background-color: #0A1F44;
+            padding: 30px;
+            border-bottom: 2px solid #C5A059;
+            text-align: center;
         }
 
         .logo {
-            color: var(--gold);
-            font-size: 28px;
+            color: #C5A059;
+            font-size: 35px;
             font-weight: 900;
-            letter-spacing: 6px;
+            letter-spacing: 8px;
             margin: 0;
-            text-transform: uppercase;
-        }
-
-        /* المحرر ملء الشاشة */
-        .editor-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
         }
 
         #editor {
             flex: 1;
-            background-color: var(--black);
+            background-color: #0B0B0B;
             color: #efefef;
             padding: 40px;
             font-family: 'Courier New', monospace;
-            font-size: 22px;
-            line-height: 1.8;
+            font-size: 24px;
             border: none;
             outline: none;
             resize: none;
             text-align: right;
+            line-height: 1.8;
         }
 
-        /* شاشة المراقبة (Console) */
         #console {
-            height: 250px;
-            background-color: rgba(0,0,0,0.95);
-            border-top: 2px solid var(--gold);
-            padding: 20px 30px;
-            color: var(--gold);
-            font-family: monospace;
+            height: 200px;
+            background-color: #000;
+            border-top: 1px solid #C5A059;
+            padding: 25px;
+            color: #C5A059;
             overflow-y: auto;
-            font-size: 15px;
+            font-size: 18px;
         }
 
-        /* زر التشغيل العائم الأصلي */
         .btn-run {
             position: fixed;
-            bottom: 280px;
+            bottom: 240px;
             left: 50px;
-            background-color: var(--gold);
+            background-color: #C5A059;
             color: black;
             border: none;
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
             font-weight: bold;
-            font-size: 16px;
             cursor: pointer;
-            box-shadow: 0 0 25px rgba(197, 160, 89, 0.5);
-            transition: 0.3s;
-            z-index: 100;
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.4);
+            font-size: 18px;
         }
-
-        .btn-run:active {
-            transform: scale(0.9);
-        }
-
-        /* إخفاء شريط التمرير للجمالية */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: var(--gold); }
     </style>
 </head>
 <body>
 
 <header>
     <h1 class="logo">MAJAL</h1>
-    <div style="font-size: 11px; color: var(--gold); letter-spacing: 2px;">CORE SYSTEM v5.0</div>
 </header>
 
-<div class="editor-container">
-    <textarea id="editor" spellcheck="false">
-# مَجال: عودة التصميم الأصلي
+<textarea id="editor" spellcheck="false">
+# مَجال: النسخة الأصلية
 عرف القوة = 100000
-عرف الحالة = "صلب بالحيل"
-
-اطبع "نظام مَجال يعمل بآداء أقصى"
-اطبع "الأساس: " + الحالة
-
-# ابني_منصة_عملاقة 100000
+اطبع "مرحباً بك في مَجال"
 </textarea>
-    <button class="btn-run" onclick="MajalCore.boot()">إقلاع</button>
-</div>
 
-<div id="console">> نظام مَجال جاهز للعمل العملياتي...</div>
+<button class="btn-run" onclick="run()">إقلاع</button>
+
+<div id="console">> جاهز...</div>
 
 <script>
-    const MajalCore = {
-        memory: new Map(),
+    const memory = new Map();
+    function run() {
+        const code = document.getElementById('editor').value;
+        const con = document.getElementById('console');
+        con.innerHTML = "";
+        memory.clear();
 
-        boot: function() {
-            const code = document.getElementById('editor').value;
-            const con = document.getElementById('console');
-            con.innerHTML = "<div>[جاري فحص النواة المركزية...]</div>";
-            this.memory.clear();
-            
-            const lines = code.split('\n');
-            const start = performance.now();
-
-            lines.forEach(line => {
-                this.execute(line.trim());
-            });
-
-            const end = performance.now();
-            con.innerHTML += `<div style="color:cyan; margin-top:10px;">⚡ تمت المعالجة في ${((end-start)/1000).toFixed(4)} ثانية.</div>`;
-            con.scrollTop = con.scrollHeight;
-        },
-
-        execute: function(line) {
-            const con = document.getElementById('console');
+        code.split('\n').forEach(line => {
+            line = line.trim();
             if(!line || line.startsWith("#")) return;
-
             try {
                 if(line.startsWith("عرف")) {
                     let [n, v] = line.replace("عرف","").split("=");
-                    this.memory.set(n.trim(), eval(v.trim().replace(/"/g,"'")));
-                } 
-                else if(line.startsWith("اطبع")) {
+                    memory.set(n.trim(), eval(v.trim().replace(/"/g,"'")));
+                } else if(line.startsWith("اطبع")) {
                     let exp = line.replace("اطبع","").trim();
-                    this.memory.forEach((v, k) => {
+                    memory.forEach((v, k) => {
                         exp = exp.replace(new RegExp(`\\b${k}\\b`, 'g'), typeof v === 'string' ? `'${v}'` : v);
                     });
-                    con.innerHTML += `<div style="margin-top:5px;">📄 > ${eval(exp)}</div>`;
+                    con.innerHTML += `<div>📄 > ${eval(exp)}</div>`;
                 }
-                else if(line.startsWith("ابني_منصة_عملاقة")) {
-                    let size = parseInt(line.match(/\d+/));
-                    con.innerHTML += `<div style="color:var(--terminal-green)">⚙️ تم بناء وتحميل ${size.toLocaleString()} سطر بنجاح.</div>`;
-                }
-            } catch(e) {
-                con.innerHTML += `<div style="color:red">خطأ: ${line}</div>`;
-            }
-        }
-    };
+            } catch(e) { con.innerHTML += `<div>خطأ: ${line}</div>`; }
+        });
+    }
 </script>
 
 </body>
