@@ -2,106 +2,121 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>MAJAL SYSTEM | نظام مَجال المتكامل</title>
+    <title>MAJAL SOVEREIGN | مَجال السيادية</title>
     <style>
-        :root { --royal-black: #0B0B0B; --navy: #0A1F44; --gold: #C5A059; --bg: #050505; }
-        body { background: var(--bg); color: white; font-family: 'Courier New', monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        :root { --black: #050505; --navy: #0A1F44; --gold: #C5A059; --terminal: #101010; }
+        body { background: var(--black); color: white; font-family: 'Courier New', monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; }
         
-        /* تصميم يحاكي أنظمة التشغيل الفخمة */
-        header { background: var(--navy); padding: 20px; border-bottom: 3px solid var(--gold); display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
-        .system-status { font-size: 12px; color: var(--gold); letter-spacing: 1px; }
+        /* تصميم الواجهة العسكرية الفخمة */
+        .header { background: var(--navy); padding: 15px 25px; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; }
+        .core-status { font-size: 11px; color: #4AF626; text-transform: uppercase; }
 
-        .main-container { flex: 1; display: flex; flex-direction: column; padding: 10px; gap: 10px; }
+        .editor-container { flex: 1; display: grid; grid-template-columns: 1fr 350px; gap: 5px; padding: 10px; background: #000; }
+        #editor { background: var(--terminal); color: #fff; border: 1px solid #222; border-radius: 5px; padding: 20px; font-size: 18px; line-height: 1.5; outline: none; resize: none; }
         
-        /* منطقة الأكواد المحمية */
-        #editor { flex: 2; background: var(--royal-black); border: 1px solid #222; border-radius: 10px; padding: 20px; color: #fff; font-size: 19px; outline: none; resize: none; box-shadow: inset 0 0 20px #000; }
-
-        /* الكونسول (منطقة المعالجة المركزية) */
-        #console { flex: 1; background: #000; border: 1px solid var(--gold); border-radius: 10px; padding: 15px; overflow-y: auto; color: #4AF626; font-size: 14px; }
-
-        .btn-run { background: var(--gold); color: black; border: none; padding: 15px 40px; border-radius: 5px; font-weight: bold; cursor: pointer; font-size: 18px; transition: 0.3s; }
-        .btn-run:hover { transform: translateY(-3px); box-shadow: 0 5px 20px var(--gold); }
+        #monitor { background: #000; border: 1px solid var(--gold); border-radius: 5px; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+        .log { border-left: 2px solid var(--gold); padding-right: 10px; font-size: 13px; }
+        
+        .btn-boot { background: var(--gold); color: #000; border: none; padding: 12px 35px; border-radius: 4px; font-weight: 900; cursor: pointer; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-<header>
+<div class="header">
     <div>
-        <h1 style="margin:0; color:var(--gold); font-size:28px;">MAJAL <span style="font-size:14px; color:white;">SYSTEM V4</span></h1>
-        <div class="system-status">STATUS: ONLINE | CORE: ACTIVE</div>
+        <h2 style="margin:0; color:var(--gold);">MAJAL <span style="color:white; font-size:12px;">CORE V5.0</span></h2>
+        <div class="core-status">● HEAVY_DUTY_KERNEL_ACTIVE</div>
     </div>
-    <button class="btn-run" onclick="MajalSystem.boot()">تشغيل النظام ▶</button>
-</header>
+    <button class="btn-boot" onclick="SovereignCore.init()">إقلاع النواة ▶</button>
+</div>
 
-<div class="main-container">
+<div class="editor-container">
     <textarea id="editor" spellcheck="false">
-# تأسيس نظام مَجال القوي
-عرف المستخدم = "سوهيل"
-عرف الرصيد = 5000
-عرف المشتريات = 1200
+# بناء الأساس القوي لـ مَجال
+عرف الطاقة = 100
+عرف التهديد = 50
 
-احسب الرصيد - المشتريات
-اطبع "مرحباً يا " + المستخدم
-اطبع "رصيدك المتبقي هو الحسبة"
+لو الطاقة > التهديد:
+   اطبع "النظام في حالة أمان قصوى"
+
+احسب الطاقة * 2
+اطبع "مستوى الطاقة الجديد هو الحسبة"
     </textarea>
 
-    <div id="console">> نظام مَجال بانتظار إشارة البدء...</div>
+    <div id="monitor">
+        <div style="color:var(--gold); font-weight:bold; border-bottom:1px solid #333; padding-bottom:5px;">MONITOR_LOG:</div>
+    </div>
 </div>
 
 <script>
-    // --- النواة التأسيسية القوية (The Core System) ---
-    const MajalSystem = {
-        memory: {},
-        lastResult: 0,
+    // --- النواة السيادية (Majal Sovereign Engine) ---
+    const SovereignCore = {
+        registry: new Map(), // استخدام Map لسرعة الوصول وحماية الذاكرة
+        accumulator: 0,
 
-        boot: function() {
+        init: function() {
             const code = document.getElementById('editor').value;
-            const consoleDiv = document.getElementById('console');
-            consoleDiv.innerHTML = "<div style='color:var(--gold)'>[SYSTEM BOOTING...]</div>";
-            this.memory = {}; // تصفير الذاكرة لضمان الصلابة
+            const monitor = document.getElementById('monitor');
+            monitor.innerHTML = "<div style='color:cyan'>[INITIALIZING KERNEL...]</div>";
+            this.registry.clear(); // تصفير الذاكرة الفولاذي
             
-            const lines = code.split('\n').map(l => l.trim()).filter(l => l && !l.startsWith("#"));
-            
-            lines.forEach(line => this.process(line, consoleDiv));
-            consoleDiv.innerHTML += "<div style='color:var(--gold)'>[PROCESS COMPLETED]</div>";
+            const stream = code.split('\n').map(s => s.trim()).filter(s => s && !s.startsWith("#"));
+            stream.forEach(instruction => this.parse(instruction, monitor));
         },
 
-        process: function(line, display) {
+        parse: function(ins, monitor) {
             try {
-                // معالجة التعريف الصلب
-                if (line.startsWith("عرف")) {
-                    let parts = line.replace("عرف", "").split("=");
-                    let name = parts[0].trim();
-                    let value = eval(parts[1].trim().replace(/"/g, "'"));
-                    this.memory[name] = value;
-                    display.innerHTML += `<div>⚙️ MEM_LOAD: [${name}] SUCCESS</div>`;
-                }
-                
-                // معالجة الحساب وحفظ النتيجة في الذاكرة المؤقتة
-                else if (line.startsWith("احسب")) {
-                    let exp = line.replace("احسب", "").trim();
-                    for (let key in this.memory) {
-                        let reg = new RegExp(`\\b${key}\\b`, 'g');
-                        exp = exp.replace(reg, this.memory[key]);
-                    }
-                    this.lastResult = eval(exp);
-                    display.innerHTML += `<div>📊 CALC_RES: ${this.lastResult}</div>`;
+                // 1. معالج التعريف (Registration)
+                if (ins.startsWith("عرف")) {
+                    let [rawKey, rawVal] = ins.replace("عرف", "").split("=");
+                    let key = rawKey.trim();
+                    let val = eval(rawVal.trim().replace(/"/g, "'"));
+                    this.registry.set(key, val);
+                    this.log(monitor, `MEM_WRITE: ${key} -> ${val}`, "white");
                 }
 
-                // معالجة الطباعة الذكية
-                else if (line.startsWith("اطبع")) {
-                    let exp = line.replace("اطبع", "").trim();
-                    exp = exp.replace("الحسبة", this.lastResult); // ربط الحساب بالطباعة
-                    for (let key in this.memory) {
-                        let reg = new RegExp(`\\b${key}\\b`, 'g');
-                        let val = typeof this.memory[key] === 'string' ? `'${this.memory[key]}'` : this.memory[key];
-                        exp = exp.replace(reg, val);
+                // 2. معالج المنطق (Logic Processor)
+                else if (ins.startsWith("لو")) {
+                    let condition = ins.replace("لو", "").replace(":", "").trim();
+                    // استبدال المتغيرات في الشرط
+                    this.registry.forEach((v, k) => {
+                        condition = condition.replace(new RegExp(`\\b${k}\\b`, 'g'), v);
+                    });
+                    if (eval(condition)) {
+                        this.log(monitor, "LOGIC_CHECK: PASSED", "#4AF626");
+                    } else {
+                        this.log(monitor, "LOGIC_CHECK: FAILED", "#ff4444");
                     }
-                    display.innerHTML += `<div style="color:#C5A059">> ${eval(exp)}</div>`;
                 }
-            } catch (e) {
-                display.innerHTML += `<div style="color:red">⚠️ SYS_ERR: ${line}</div>`;
+
+                // 3. معالج الحساب (Math Engine)
+                else if (ins.startsWith("احسب")) {
+                    let exp = ins.replace("احسب", "").trim();
+                    this.registry.forEach((v, k) => {
+                        exp = exp.replace(new RegExp(`\\b${k}\\b`, 'g'), v);
+                    });
+                    this.accumulator = eval(exp);
+                    this.log(monitor, `MATH_EXEC: ${exp} = ${this.accumulator}`, "cyan");
+                }
+
+                // 4. معالج الإخراج (Output Unit)
+                else if (ins.startsWith("اطبع")) {
+                    let msg = ins.replace("اطبع", "").trim();
+                    msg = msg.replace("الحسبة", this.accumulator);
+                    this.registry.forEach((v, k) => {
+                        let val = typeof v === 'string' ? `'${v}'` : v;
+                        msg = msg.replace(new RegExp(`\\b${k}\\b`, 'g'), val);
+                    });
+                    this.log(monitor, `> ${eval(msg)}`, "#C5A059");
+                }
+            } catch (err) {
+                this.log(monitor, `CORE_CRITICAL_ERR: ${ins}`, "#ff4444");
             }
+        },
+
+        log: function(target, text, color) {
+            target.innerHTML += `<div class="log" style="color:${color}">${text}</div>`;
+            target.scrollTop = target.scrollHeight;
         }
     };
 </script>
