@@ -2,92 +2,72 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Majal 2.0 | منصة الإبداع الحر</title>
+    <title>Majal 2.0 | محرك اللغة الأم</title>
     <style>
         :root { --bg: #020C1B; --navy: #0A192F; --gold: #64FFDA; --white: #E6F1FF; }
         body { background: var(--bg); color: var(--white); font-family: sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
         header { background: var(--navy); padding: 20px; text-align: center; border-bottom: 2px solid var(--gold); }
         .container { display: flex; flex: 1; padding: 20px; gap: 20px; overflow: hidden; }
-        textarea { flex: 1; background: #112240; color: var(--gold); border: 1px solid var(--navy); border-radius: 10px; padding: 20px; font-size: 18px; font-family: monospace; outline: none; resize: none; }
-        #output { flex: 1; background: #fff; color: #000; border-radius: 10px; padding: 0; overflow-y: auto; border: 5px solid var(--navy); position: relative; }
-        .controls { padding: 20px; text-align: center; }
-        button { background: var(--gold); color: var(--bg); border: none; padding: 15px 50px; font-size: 20px; font-weight: bold; border-radius: 5px; cursor: pointer; transition: 0.3s; }
-        button:hover { box-shadow: 0 0 20px var(--gold); }
-        
-        /* شاشة فارغة تماماً للمبرمج ليتفنن فيها */
-        #render-area { width: 100%; height: 100%; }
+        textarea { flex: 1; background: #112240; color: var(--gold); border: 1px solid var(--navy); border-radius: 10px; padding: 20px; font-size: 18px; font-family: 'Courier New', monospace; outline: none; resize: none; }
+        #output { flex: 1; background: #fff; border-radius: 10px; overflow-y: auto; border: 3px solid var(--gold); position: relative; }
+        .controls { padding: 15px; text-align: center; }
+        button { background: var(--gold); color: var(--bg); border: none; padding: 12px 40px; font-size: 18px; font-weight: bold; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <header><h1>MAJAL 2.0 <small>مختبر الإبداع</small></h1></header>
+    <header><h1>MAJAL 2.0 <small>محرك اللغة الأم</small></h1></header>
     <div class="container">
-        <textarea id="code" placeholder="# تفنن بموقعك هنا...">
-# ابدأ ببناء هيكلك الخاص
-هيكل "div" كلاس "box" نص "مرحباً بك في موقعي الخاص"
-صمم ".box" خلفية "navy" لون "white" حواف "20px" padding "30px"
+        <textarea id="code" placeholder="# اكتب كود مَجال أو اللغة الأم هنا...">
+# تعريف متغير بمَجال
+عرف عنوان = "موقعي الاحترافي"
 
-# أضف عناصرك بحرية
-هيكل "button" نص "اضغط هنا"
-صمم "button" خلفية "#64FFDA" لون "#020C1B" font-weight "bold"</textarea>
+# استخدام اللغة الأم (HTML) مباشرة داخل مَجال
+هيكل:
+<div style="padding: 40px; text-align: center; font-family: Arial;">
+    <h1 style="color: #0A192F;"> {عنوان} </h1>
+    <p> المبرمج هنا له الحرية المطلقة في كتابة أي كود </p>
+    <button onclick="alert('تم التشغيل')">زر تفاعلي</button>
+</div>
+</textarea>
         <div id="output">
-            <div id="render-area"></div>
+            <div id="canvas"></div>
         </div>
     </div>
     <div class="controls">
-        <button onclick="runCode()">تشغيل الإبداع 🚀</button>
+        <button onclick="runMajal()">تشغيل النظام 🚀</button>
     </div>
 
     <script>
-        function runCode() {
+        const memory = new Map();
+
+        function runMajal() {
             const code = document.getElementById('code').value;
-            const renderArea = document.getElementById('render-area');
-            renderArea.innerHTML = ""; // مسح كل شيء للبدء من جديد
+            const canvas = document.getElementById('canvas');
+            canvas.innerHTML = ""; 
+            memory.clear();
+
+            // فصل الأكواد (منطق مَجال vs اللغة الأم)
+            const parts = code.split('هيكل:');
             
-            const styles = document.createElement('style');
-            let cssContent = "";
-
-            code.split('\n').forEach(line => {
+            // 1. معالجة منطق مَجال (قبل الهيكل)
+            const logic = parts[0].split('\n');
+            logic.forEach(line => {
                 line = line.trim();
-                if (!line || line.startsWith("#")) return;
-
-                // 1. أمر الهيكلة (HTML Builder)
-                if (line.startsWith("هيكل")) {
-                    const tag = line.match(/"([^"]+)"/g);
-                    if (tag) {
-                        const el = document.createElement(tag[0].replace(/"/g, ''));
-                        // إذا فيه نص
-                        const textMatch = line.match(/نص "([^"]+)"/);
-                        if (textMatch) el.innerText = textMatch[1];
-                        // إذا فيه كلاس
-                        const classMatch = line.match(/كلاس "([^"]+)"/);
-                        if (classMatch) el.className = classMatch[1];
-                        
-                        renderArea.appendChild(el);
-                    }
-                }
-
-                // 2. أمر التصميم (CSS Builder)
-                if (line.startsWith("صمم")) {
-                    const selector = line.match(/"([^"]+)"/)[1];
-                    let rules = "";
-                    const props = {
-                        "خلفية": "background",
-                        "لون": "color",
-                        "حواف": "border-radius",
-                        "padding": "padding",
-                        "font-weight": "font-weight"
-                    };
-                    
-                    for (let key in props) {
-                        const match = line.match(new RegExp(`${key} "([^"]+)"`));
-                        if (match) rules += `${props[key]}: ${match[1]}; `;
-                    }
-                    cssContent += `${selector} { ${rules} }\n`;
+                if (line.startsWith("عرف")) {
+                    let [n, v] = line.replace("عرف","").split("=");
+                    memory.set(n.trim(), eval(v.trim().replace(/"/g,"'")));
                 }
             });
-            
-            styles.innerHTML = cssContent;
-            renderArea.appendChild(styles);
+
+            // 2. معالجة اللغة الأم (بعد كلمة هيكل:)
+            if (parts[1]) {
+                let rawHTML = parts[1].trim();
+                // استبدال المتغيرات الذكي داخل الكود الخام
+                memory.forEach((v, k) => {
+                    rawHTML = rawHTML.replace(new RegExp(`{${k}}`, 'g'), v);
+                });
+                canvas.innerHTML = rawHTML;
+            }
         }
     </script>
 </body>
