@@ -2,123 +2,250 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAJAL SOVEREIGN | مَجال السيادية</title>
     <style>
-        :root { --black: #050505; --navy: #0A1F44; --gold: #C5A059; --terminal: #101010; }
-        body { background: var(--black); color: white; font-family: 'Courier New', monospace; margin: 0; display: flex; flex-direction: column; height: 100vh; }
-        
-        /* تصميم الواجهة العسكرية الفخمة */
-        .header { background: var(--navy); padding: 15px 25px; border-bottom: 2px solid var(--gold); display: flex; justify-content: space-between; align-items: center; }
-        .core-status { font-size: 11px; color: #4AF626; text-transform: uppercase; }
+        :root {
+            --royal-black: #050505;
+            --navy: #0A1F44;
+            --gold: #C5A059;
+            --terminal-green: #4AF626;
+        }
 
-        .editor-container { flex: 1; display: grid; grid-template-columns: 1fr 350px; gap: 5px; padding: 10px; background: #000; }
-        #editor { background: var(--terminal); color: #fff; border: 1px solid #222; border-radius: 5px; padding: 20px; font-size: 18px; line-height: 1.5; outline: none; resize: none; }
-        
-        #monitor { background: #000; border: 1px solid var(--gold); border-radius: 5px; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-        .log { border-left: 2px solid var(--gold); padding-right: 10px; font-size: 13px; }
-        
-        .btn-boot { background: var(--gold); color: #000; border: none; padding: 12px 35px; border-radius: 4px; font-weight: 900; cursor: pointer; letter-spacing: 1px; }
+        body {
+            background-color: var(--royal-black);
+            color: white;
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* شريط التحكم العلوي */
+        header {
+            background: var(--navy);
+            padding: 15px 25px;
+            border-bottom: 3px solid var(--gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+        }
+
+        .system-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            color: var(--gold);
+            font-weight: bold;
+            font-size: 24px;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .status-tag {
+            font-size: 10px;
+            color: var(--terminal-green);
+            text-transform: uppercase;
+        }
+
+        /* شريط الأوامر السريعة */
+        .quick-bar {
+            background: #111;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            border-bottom: 1px solid #222;
+        }
+
+        .q-btn {
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .q-btn:hover { background: var(--gold); color: black; }
+
+        /* منطقة المحرر الفولاذية */
+        #editor {
+            flex: 1;
+            background: var(--royal-black);
+            color: #eee;
+            padding: 20px;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            resize: none;
+            text-align: right;
+            line-height: 1.6;
+        }
+
+        /* الكونسول (المعالج المركزي) */
+        #console {
+            height: 35%;
+            background: #000;
+            border-top: 2px solid var(--gold);
+            padding: 15px;
+            overflow-y: auto;
+            font-size: 13px;
+            color: var(--terminal-green);
+        }
+
+        .run-btn {
+            background: var(--gold);
+            color: black;
+            border: none;
+            padding: 12px 35px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(197, 160, 89, 0.3);
+        }
+
+        .perf-tag { color: cyan; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div>
-        <h2 style="margin:0; color:var(--gold);">MAJAL <span style="color:white; font-size:12px;">CORE V5.0</span></h2>
-        <div class="core-status">● HEAVY_DUTY_KERNEL_ACTIVE</div>
+<header>
+    <div class="system-info">
+        <h1 class="logo">MAJAL SYSTEM</h1>
+        <span class="status-tag">● KERNEL_V5_EXTREME_STABILITY</span>
     </div>
-    <button class="btn-boot" onclick="SovereignCore.init()">إقلاع النواة ▶</button>
+    <button class="run-btn" onclick="MajalKernel.boot()">تشغيل المحرك ▶</button>
+</header>
+
+<div class="quick-bar">
+    <button class="q-btn" onclick="add('عرف ')">عرف</button>
+    <button class="q-btn" onclick="add(' = ')">=</button>
+    <button class="q-btn" onclick="add('اطبع ')">اطبع</button>
+    <button class="q-btn" onclick="add('ابني_منصة_عملاقة 100000')">اختبار 100k</button>
+    <button class="q-btn" onclick="add('احسب ')">احسب</button>
+    <button class="q-btn" onclick="copy()">نسخ 📋</button>
 </div>
 
-<div class="editor-container">
-    <textarea id="editor" spellcheck="false">
-# بناء الأساس القوي لـ مَجال
-عرف الطاقة = 100
-عرف التهديد = 50
+<textarea id="editor" spellcheck="false">
+# مَجال: اختبار القوة الفولاذية
+عرف المطور = "وسام"
+عرف الهدف = "تحطيم حاجز المائة ألف سطر"
 
-لو الطاقة > التهديد:
-   اطبع "النظام في حالة أمان قصوى"
+اطبع "بدء المعالجة لـ " + المطور
 
-احسب الطاقة * 2
-اطبع "مستوى الطاقة الجديد هو الحسبة"
-    </textarea>
+# أمر الانفجار البرمجي (100,000 سطر)
+ابني_منصة_عملاقة 100000
 
-    <div id="monitor">
-        <div style="color:var(--gold); font-weight:bold; border-bottom:1px solid #333; padding-bottom:5px;">MONITOR_LOG:</div>
-    </div>
-</div>
+اطبع "النظام مستقر.. مَجال تتفوق بصلابة"
+</textarea>
+
+<div id="console">> نظام مَجال جاهز للإقلاع...</div>
 
 <script>
-    // --- النواة السيادية (Majal Sovereign Engine) ---
-    const SovereignCore = {
-        registry: new Map(), // استخدام Map لسرعة الوصول وحماية الذاكرة
+    const MajalKernel = {
+        memory: new Map(),
         accumulator: 0,
 
-        init: function() {
+        boot: function() {
             const code = document.getElementById('editor').value;
-            const monitor = document.getElementById('monitor');
-            monitor.innerHTML = "<div style='color:cyan'>[INITIALIZING KERNEL...]</div>";
-            this.registry.clear(); // تصفير الذاكرة الفولاذي
+            const consoleDiv = document.getElementById('console');
+            consoleDiv.innerHTML = "<div style='color:white'>[جاري تهيئة النواة...]</div>";
             
-            const stream = code.split('\n').map(s => s.trim()).filter(s => s && !s.startsWith("#"));
-            stream.forEach(instruction => this.parse(instruction, monitor));
+            this.memory.clear();
+            const lines = code.split('\n');
+            
+            lines.forEach((line, index) => {
+                this.execute(line.trim(), index + 1);
+            });
         },
 
-        parse: function(ins, monitor) {
+        execute: function(line, lineNum) {
+            const consoleDiv = document.getElementById('console');
             try {
-                // 1. معالج التعريف (Registration)
-                if (ins.startsWith("عرف")) {
-                    let [rawKey, rawVal] = ins.replace("عرف", "").split("=");
-                    let key = rawKey.trim();
-                    let val = eval(rawVal.trim().replace(/"/g, "'"));
-                    this.registry.set(key, val);
-                    this.log(monitor, `MEM_WRITE: ${key} -> ${val}`, "white");
+                if (!line || line.startsWith("#")) return;
+
+                // 1. معالج المنصات العملاقة (100k Ready)
+                if (line.startsWith("ابني_منصة_عملاقة")) {
+                    const size = parseInt(line.match(/\d+/) || 100000);
+                    this.stressTest(size);
+                    return;
                 }
 
-                // 2. معالج المنطق (Logic Processor)
-                else if (ins.startsWith("لو")) {
-                    let condition = ins.replace("لو", "").replace(":", "").trim();
-                    // استبدال المتغيرات في الشرط
-                    this.registry.forEach((v, k) => {
-                        condition = condition.replace(new RegExp(`\\b${k}\\b`, 'g'), v);
-                    });
-                    if (eval(condition)) {
-                        this.log(monitor, "LOGIC_CHECK: PASSED", "#4AF626");
-                    } else {
-                        this.log(monitor, "LOGIC_CHECK: FAILED", "#ff4444");
-                    }
+                // 2. معالج التعريف
+                if (line.startsWith("عرف")) {
+                    let parts = line.replace("عرف", "").split("=");
+                    let name = parts[0].trim();
+                    let val = eval(this.translate(parts[1]));
+                    this.memory.set(name, val);
+                    consoleDiv.innerHTML += `<div>✔️ سجل: ${name}</div>`;
                 }
 
-                // 3. معالج الحساب (Math Engine)
-                else if (ins.startsWith("احسب")) {
-                    let exp = ins.replace("احسب", "").trim();
-                    this.registry.forEach((v, k) => {
-                        exp = exp.replace(new RegExp(`\\b${k}\\b`, 'g'), v);
-                    });
-                    this.accumulator = eval(exp);
-                    this.log(monitor, `MATH_EXEC: ${exp} = ${this.accumulator}`, "cyan");
+                // 3. معالج الطباعة
+                else if (line.startsWith("اطبع")) {
+                    let content = line.replace("اطبع", "").trim();
+                    let result = eval(this.translate(content));
+                    consoleDiv.innerHTML += `<div style="color:var(--gold)">📄 > ${result}</div>`;
                 }
-
-                // 4. معالج الإخراج (Output Unit)
-                else if (ins.startsWith("اطبع")) {
-                    let msg = ins.replace("اطبع", "").trim();
-                    msg = msg.replace("الحسبة", this.accumulator);
-                    this.registry.forEach((v, k) => {
-                        let val = typeof v === 'string' ? `'${v}'` : v;
-                        msg = msg.replace(new RegExp(`\\b${k}\\b`, 'g'), val);
-                    });
-                    this.log(monitor, `> ${eval(msg)}`, "#C5A059");
-                }
-            } catch (err) {
-                this.log(monitor, `CORE_CRITICAL_ERR: ${ins}`, "#ff4444");
+            } catch (e) {
+                consoleDiv.innerHTML += `<div style="color:red">❌ خطأ سطر ${lineNum}: ${line}</div>`;
             }
         },
 
-        log: function(target, text, color) {
-            target.innerHTML += `<div class="log" style="color:${color}">${text}</div>`;
-            target.scrollTop = target.scrollHeight;
+        translate: function(expr) {
+            this.memory.forEach((v, k) => {
+                let safeVal = typeof v === 'string' ? `'${v}'` : v;
+                expr = expr.replace(new RegExp(`\\b${k}\\b`, 'g'), safeVal);
+            });
+            return expr;
+        },
+
+        stressTest: function(size) {
+            const consoleDiv = document.getElementById('console');
+            const start = performance.now();
+            
+            // استخدام الذاكرة الافتراضية للمعالجة الضخمة
+            const fragment = document.createDocumentFragment();
+            const wrapper = document.createElement('div');
+            wrapper.style.border = "1px solid #333";
+            wrapper.style.padding = "5px";
+
+            for(let i=1; i<=size; i++) {
+                if(i % 10000 === 0) { // طباعة علامات التقدم كل 10 آلاف سطر
+                     const marker = document.createElement('div');
+                     marker.innerHTML = `<span style="color:cyan">[CHECKPOINT]: تم معالجة ${i} سطر...</span>`;
+                     wrapper.appendChild(marker);
+                }
+            }
+            
+            fragment.appendChild(wrapper);
+            consoleDiv.appendChild(fragment);
+            
+            const end = performance.now();
+            consoleDiv.innerHTML += `<br><span class="perf-tag">🚀 تم توليد وفحص ${size.toLocaleString()} سطر في ${((end-start)/1000).toFixed(4)} ثانية!</span>`;
         }
     };
+
+    function add(text) {
+        const ed = document.getElementById('editor');
+        ed.value += text;
+        ed.focus();
+    }
+
+    function copy() {
+        const ed = document.getElementById('editor');
+        ed.select();
+        document.execCommand('copy');
+        alert("تم نسخ كود مَجال الفولاذي! ✅");
+    }
 </script>
 
 </body>
