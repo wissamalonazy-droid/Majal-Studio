@@ -1,140 +1,94 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Visionary | Digital Solutions</title>
-<script src="https://cdn.tailwindcss.com"></script>
-
-<style>
-body {
-    background-color: #0B0B0B;
-    color: #E5E7EB;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-.hero-gradient {
-    background: linear-gradient(135deg, #0B0B0B 0%, #0A1F44 100%);
-}
-.fade-in {
-    animation: fade 1.2s ease-in-out;
-}
-@keyframes fade {
-    from {opacity:0; transform: translateY(20px);}
-    to {opacity:1; transform: translateY(0);}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الشركة | حلول رقمية متكاملة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap');
+        body {
+            background-color: #0B0B0B;
+            color: #F3F4F6;
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .accent-gradient {
+            background: linear-gradient(135deg, #0B0B0B 0%, #1a1a1a 100%);
+        }
+        .btn-primary {
+            background-color: #2563eb; /* لون أزرق محايد واحترافي */
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
-<nav class="p-6 flex justify-between items-center border-b border-gray-800">
-    <div class="text-2xl font-bold tracking-widest uppercase">VISIONARY</div>
-    <ul class="hidden md:flex gap-8 text-sm">
-        <li><a href="#home" class="hover:text-blue-400">الرئيسية</a></li>
-        <li><a href="#services" class="hover:text-blue-400">خدماتنا</a></li>
-        <li><a href="#projects" class="hover:text-blue-400">المشاريع</a></li>
-        <li><a href="#contact" class="hover:text-blue-400">تواصل</a></li>
-    </ul>
-</nav>
+    <nav class="fixed w-full z-50 bg-[#0B0B0B]/90 backdrop-blur-md border-b border-gray-800 px-6 py-4 flex justify-between items-center">
+        <div class="text-2xl font-bold tracking-tight">LOGO</div>
+        <ul class="hidden md:flex gap-8 text-sm font-medium">
+            <li><a href="#home" class="hover:text-blue-500 transition">الرئيسية</a></li>
+            <li><a href="#services" class="hover:text-blue-500 transition">خدماتنا</a></li>
+            <li><a href="#portfolio" class="hover:text-blue-500 transition">أعمالنا</a></li>
+            <li><a href="#contact" class="hover:text-blue-500 transition">تواصل معنا</a></li>
+        </ul>
+    </nav>
 
-<!-- HERO -->
-<section id="home" class="hero-gradient h-screen flex flex-col justify-center items-center text-center px-4 fade-in">
-    <h1 class="text-5xl md:text-7xl font-extrabold mb-6">
-        نبني مشاريع رقمية تحقق نتائج
-    </h1>
-    <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-10">
-        ساعدنا أكثر من 50 عميل في إطلاق مشاريع ناجحة وتحقيق نمو رقمي حقيقي.
-    </p>
-    <div class="flex gap-4">
-        <a href="#contact" class="bg-blue-900 hover:bg-blue-800 text-white px-8 py-3 rounded-sm">
-            ابدأ مشروعك الآن
-        </a>
-        <a href="#projects" class="border border-gray-600 hover:border-white px-8 py-3 rounded-sm">
-            شاهد أعمالنا
-        </a>
-    </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services" class="py-20 px-10">
-    <h2 class="text-3xl font-bold mb-16 text-center">خدماتنا</h2>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-
-        <div class="p-8 border border-gray-900 hover:border-gray-700 transition bg-[#0d0d0d]">
-            <h3 class="text-xl font-semibold mb-4">تطوير المواقع</h3>
-            <p class="text-gray-500 text-sm">
-                تصميم وبرمجة مواقع احترافية سريعة ومتوافقة مع جميع الأجهزة.
-            </p>
+    <section id="home" class="h-screen flex flex-col justify-center items-center text-center px-6 accent-gradient">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6 max-w-4xl leading-tight">
+            نحول الأفكار إلى <span class="text-blue-500">واقع رقمي</span> ملموس
+        </h1>
+        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-10">
+            نقدم حلولاً تقنية مبتكرة تساعد الشركات على النمو والتميز في السوق الرقمي.
+        </p>
+        <div class="flex gap-4">
+            <a href="#contact" class="btn-primary text-white px-10 py-3 rounded-md font-bold">ابدأ الآن</a>
+            <a href="#portfolio" class="border border-gray-700 hover:border-gray-400 px-10 py-3 rounded-md transition">شاهد المشاريع</a>
         </div>
+    </section>
 
-        <div class="p-8 border border-gray-900 hover:border-gray-700 transition bg-[#0d0d0d]">
-            <h3 class="text-xl font-semibold mb-4">المتاجر الإلكترونية</h3>
-            <p class="text-gray-500 text-sm">
-                إنشاء متاجر جاهزة للبيع مع تجربة مستخدم قوية.
-            </p>
+    <section id="services" class="py-24 px-8 bg-[#0F0F0F]">
+        <div class="max-w-6xl mx-auto text-center mb-16">
+            <h2 class="text-3xl font-bold mb-4">خدماتنا الرئيسية</h2>
+            <p class="text-gray-500">نغطي كافة احتياجات مشروعك من التأسيس إلى الانطلاق</p>
         </div>
-
-        <div class="p-8 border border-gray-900 hover:border-gray-700 transition bg-[#0d0d0d]">
-            <h3 class="text-xl font-semibold mb-4">تصميم الهوية</h3>
-            <p class="text-gray-500 text-sm">
-                بناء براند متكامل يعكس قوة مشروعك.
-            </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div class="p-8 bg-[#161616] border border-gray-800 hover:border-blue-500 transition">
+                <h3 class="text-xl font-bold mb-4">تطوير الويب</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">بناء مواقع سريعة، آمنة، ومتوافقة مع جميع محركات البحث.</p>
+            </div>
+            <div class="p-8 bg-[#161616] border border-gray-800 hover:border-blue-500 transition">
+                <h3 class="text-xl font-bold mb-4">المتاجر الرقمية</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">حلول متكاملة للتجارة الإلكترونية تضمن سهولة البيع والشراء.</p>
+            </div>
+            <div class="p-8 bg-[#161616] border border-gray-800 hover:border-blue-500 transition">
+                <h3 class="text-xl font-bold mb-4">استشارات تقنية</h3>
+                <p class="text-gray-500 text-sm leading-relaxed">نساعدك في اختيار التقنيات الأنسب لمشروعك لضمان الاستمرارية.</p>
+            </div>
         </div>
+    </section>
 
-    </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects" class="py-20 px-10 bg-[#0d0d0d]">
-    <h2 class="text-3xl font-bold mb-16 text-center">نماذج من أعمالنا</h2>
-
-    <div class="grid md:grid-cols-3 gap-8">
-
-        <div class="border border-gray-800 p-6">
-            <h3 class="mb-2 font-semibold">متجر إلكتروني</h3>
-            <p class="text-gray-500 text-sm">تصميم متجر حديث لبيع المنتجات الرقمية</p>
+    <section id="contact" class="py-24 px-8 max-w-3xl mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold">لنتحدث عن مشروعك القادم</h2>
         </div>
+        <form class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+                <input type="text" placeholder="الاسم" class="w-full p-4 bg-[#161616] border border-gray-800 rounded focus:border-blue-500 outline-none">
+                <input type="email" placeholder="البريد الإلكتروني" class="w-full p-4 bg-[#161616] border border-gray-800 rounded focus:border-blue-500 outline-none">
+            </div>
+            <textarea placeholder="تفاصيل المشروع" rows="5" class="w-full p-4 bg-[#161616] border border-gray-800 rounded focus:border-blue-500 outline-none"></textarea>
+            <button class="w-full btn-primary py-4 rounded font-bold uppercase tracking-wider">إرسال الطلب</button>
+        </form>
+    </section>
 
-        <div class="border border-gray-800 p-6">
-            <h3 class="mb-2 font-semibold">موقع شركة</h3>
-            <p class="text-gray-500 text-sm">واجهة احترافية لشركة خدمات تقنية</p>
-        </div>
-
-        <div class="border border-gray-800 p-6">
-            <h3 class="mb-2 font-semibold">Landing Page</h3>
-            <p class="text-gray-500 text-sm">صفحة تسويقية لزيادة التحويلات</p>
-        </div>
-
-    </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact" class="py-20 px-10">
-    <h2 class="text-3xl font-bold mb-10 text-center">تواصل معنا</h2>
-
-    <form class="max-w-xl mx-auto flex flex-col gap-4">
-        <input type="text" placeholder="اسمك" class="p-3 bg-[#111] border border-gray-700">
-        <input type="email" placeholder="بريدك الإلكتروني" class="p-3 bg-[#111] border border-gray-700">
-        <textarea placeholder="اكتب رسالتك..." class="p-3 bg-[#111] border border-gray-700"></textarea>
-
-        <button type="submit" class="bg-blue-900 hover:bg-blue-800 p-3">
-            إرسال
-        </button>
-    </form>
-
-    <div class="text-center mt-6">
-        <a href="https://wa.me/966000000000" class="text-green-400 hover:underline">
-            أو تواصل عبر واتساب
-        </a>
-    </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="py-10 border-t border-gray-900 text-center text-gray-600 text-sm">
-    <p>© 2026 Visionary. All rights reserved.</p>
-</footer>
+    <footer class="py-12 border-t border-gray-900 text-center text-gray-600 text-xs">
+        <p>© 2026 جميع الحقوق محفوظة لـ [اسم شركة العميل]</p>
+    </footer>
 
 </body>
 </html>
