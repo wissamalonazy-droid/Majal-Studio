@@ -1,78 +1,140 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAJAL PRO</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { 
-            background-color: #020617; 
-            color: #f8fafc; 
-            font-family: 'Tajawal', sans-serif;
-            height: 100vh; display: flex; flex-direction: column; overflow: hidden;
-        }
-        .glass-panel { 
-            background: rgba(15, 23, 42, 0.6); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255, 255, 255, 0.05); 
-            border-radius: 32px; 
-        }
-        #codeEditor { 
-            background: transparent; border: none; outline: none; resize: none;
-            color: #94a3b8; font-family: 'Consolas', monospace; font-size: 18px;
-            padding: 30px; line-height: 1.7; width: 100%; height: 100%;
-        }
-        .main-btn {
-            background: #2563eb;
-            box-shadow: 0 10px 40px rgba(37, 99, 235, 0.2);
-            border-radius: 28px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visionary | Digital Solutions</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+    background-color: #0B0B0B;
+    color: #E5E7EB;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.hero-gradient {
+    background: linear-gradient(135deg, #0B0B0B 0%, #0A1F44 100%);
+}
+.fade-in {
+    animation: fade 1.2s ease-in-out;
+}
+@keyframes fade {
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
+}
+</style>
 </head>
-<body class="p-6 flex flex-col gap-6">
 
-    <header class="flex justify-between items-center px-2">
-        <div class="flex bg-slate-900/90 p-1.5 rounded-2xl border border-white/5">
-            <button class="px-6 py-2 bg-blue-600 rounded-xl text-[11px] font-bold">Desktop 💻</button>
-            <button class="px-6 py-2 text-slate-500 text-[11px]">Tablet 📟</button>
-            <button class="px-6 py-2 text-slate-500 text-[11px]">Mobile 📱</button>
-        </div>
-        <h1 class="text-xl font-black text-blue-500 italic">MAJAL <span class="text-white font-light text-sm">PRO</span></h1>
-    </header>
+<body>
 
-    <div class="glass-panel flex-1 flex flex-col overflow-hidden">
-        <div class="p-5 border-b border-white/5 flex justify-between items-center">
-            <div class="flex gap-2">
-                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            <span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">NUCLEUS v15 | محرك البناء السيادي</span>
-        </div>
+<!-- NAVBAR -->
+<nav class="p-6 flex justify-between items-center border-b border-gray-800">
+    <div class="text-2xl font-bold tracking-widest uppercase">VISIONARY</div>
+    <ul class="hidden md:flex gap-8 text-sm">
+        <li><a href="#home" class="hover:text-blue-400">الرئيسية</a></li>
+        <li><a href="#services" class="hover:text-blue-400">خدماتنا</a></li>
+        <li><a href="#projects" class="hover:text-blue-400">المشاريع</a></li>
+        <li><a href="#contact" class="hover:text-blue-400">تواصل</a></li>
+    </ul>
+</nav>
 
-        <textarea id="codeEditor" spellcheck="false">عرف اسم_الموقع = "موقع مَجال الجديد"
-
-<div style="padding:100px; text-align:center;">
-  <h1 style="color:#2563eb; font-size:48px;">{اسم_الموقع}</h1>
-</div></textarea>
-        
-        <div class="p-4 bg-black/20 text-[11px] text-blue-400 font-mono flex justify-end items-center gap-2">
-            <span>النظام جاهز</span>
-            <span>📟</span>
-        </div>
+<!-- HERO -->
+<section id="home" class="hero-gradient h-screen flex flex-col justify-center items-center text-center px-4 fade-in">
+    <h1 class="text-5xl md:text-7xl font-extrabold mb-6">
+        نبني مشاريع رقمية تحقق نتائج
+    </h1>
+    <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-10">
+        ساعدنا أكثر من 50 عميل في إطلاق مشاريع ناجحة وتحقيق نمو رقمي حقيقي.
+    </p>
+    <div class="flex gap-4">
+        <a href="#contact" class="bg-blue-900 hover:bg-blue-800 text-white px-8 py-3 rounded-sm">
+            ابدأ مشروعك الآن
+        </a>
+        <a href="#projects" class="border border-gray-600 hover:border-white px-8 py-3 rounded-sm">
+            شاهد أعمالنا
+        </a>
     </div>
+</section>
 
-    <button onclick="run()" class="main-btn w-full py-7 text-white font-black text-2xl transition-transform active:scale-95">
-        تشغيل النظام ⚡
-    </button>
+<!-- SERVICES -->
+<section id="services" class="py-20 px-10">
+    <h2 class="text-3xl font-bold mb-16 text-center">خدماتنا</h2>
 
-    <script>
-        function run() {
-            // النواة المحلية (بدون ربط)
-            const code = document.getElementById('codeEditor').value;
-            alert("تم إقلاع المحرك بنجاح 🚀");
-        }
-    </script>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+
+        <div class="p-8 border border-gray-900 hover:border-gray-700 transition bg-[#0d0d0d]">
+            <h3 class="text-xl font-semibold mb-4">تطوير المواقع</h3>
+            <p class="text-gray-500 text-sm">
+                تصميم وبرمجة مواقع احترافية سريعة ومتوافقة مع جميع الأجهزة.
+            </p>
+        </div>
+
+        <div class="p-8 border border-gray-900 hover:border-gray-700 transition bg-[#0d0d0d]">
+            <h3 class="text-xl font-semibold mb-4">المتاجر الإلكترونية</h3>
+            <p class="text-gray-500 text-sm">
+                إنشاء متاجر جاهزة للبيع مع تجربة مستخدم قوية.
+            </p>
+        </div>
+
+        <div class="p-8 border border-gray-900 hover:border-gray-700 transition bg-[#0d0d0d]">
+            <h3 class="text-xl font-semibold mb-4">تصميم الهوية</h3>
+            <p class="text-gray-500 text-sm">
+                بناء براند متكامل يعكس قوة مشروعك.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="py-20 px-10 bg-[#0d0d0d]">
+    <h2 class="text-3xl font-bold mb-16 text-center">نماذج من أعمالنا</h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+        <div class="border border-gray-800 p-6">
+            <h3 class="mb-2 font-semibold">متجر إلكتروني</h3>
+            <p class="text-gray-500 text-sm">تصميم متجر حديث لبيع المنتجات الرقمية</p>
+        </div>
+
+        <div class="border border-gray-800 p-6">
+            <h3 class="mb-2 font-semibold">موقع شركة</h3>
+            <p class="text-gray-500 text-sm">واجهة احترافية لشركة خدمات تقنية</p>
+        </div>
+
+        <div class="border border-gray-800 p-6">
+            <h3 class="mb-2 font-semibold">Landing Page</h3>
+            <p class="text-gray-500 text-sm">صفحة تسويقية لزيادة التحويلات</p>
+        </div>
+
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-20 px-10">
+    <h2 class="text-3xl font-bold mb-10 text-center">تواصل معنا</h2>
+
+    <form class="max-w-xl mx-auto flex flex-col gap-4">
+        <input type="text" placeholder="اسمك" class="p-3 bg-[#111] border border-gray-700">
+        <input type="email" placeholder="بريدك الإلكتروني" class="p-3 bg-[#111] border border-gray-700">
+        <textarea placeholder="اكتب رسالتك..." class="p-3 bg-[#111] border border-gray-700"></textarea>
+
+        <button type="submit" class="bg-blue-900 hover:bg-blue-800 p-3">
+            إرسال
+        </button>
+    </form>
+
+    <div class="text-center mt-6">
+        <a href="https://wa.me/966000000000" class="text-green-400 hover:underline">
+            أو تواصل عبر واتساب
+        </a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-10 border-t border-gray-900 text-center text-gray-600 text-sm">
+    <p>© 2026 Visionary. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
