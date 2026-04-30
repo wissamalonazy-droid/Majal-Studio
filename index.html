@@ -1,94 +1,183 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الشركة | حلول رقمية متكاملة</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap');
-        body {
-            background-color: #0B0B0B;
-            color: #F3F4F6;
-            font-family: 'Cairo', sans-serif;
-            scroll-behavior: smooth;
-        }
-        .accent-gradient {
-            background: linear-gradient(135deg, #0B0B0B 0%, #1a1a1a 100%);
-        }
-        .btn-primary {
-            background-color: #2563eb; /* لون أزرق محايد واحترافي */
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover {
-            background-color: #1d4ed8;
-            transform: translateY(-2px);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXA | Premium Digital Agency</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap');
+
+body{
+    background:#0B0B0B;
+    color:#F3F4F6;
+    font-family:'Cairo',sans-serif;
+}
+
+/* Effects */
+.fade{
+    opacity:0;
+    transform:translateY(20px);
+    transition:0.6s;
+}
+.fade.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.btn{
+    background:#2563eb;
+    transition:0.3s;
+}
+.btn:hover{
+    background:#1d4ed8;
+    transform:translateY(-3px);
+}
+
+/* Modal */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.8);
+    justify-content:center;
+    align-items:center;
+}
+.modal.active{
+    display:flex;
+}
+</style>
 </head>
+
 <body>
 
-    <nav class="fixed w-full z-50 bg-[#0B0B0B]/90 backdrop-blur-md border-b border-gray-800 px-6 py-4 flex justify-between items-center">
-        <div class="text-2xl font-bold tracking-tight">LOGO</div>
-        <ul class="hidden md:flex gap-8 text-sm font-medium">
-            <li><a href="#home" class="hover:text-blue-500 transition">الرئيسية</a></li>
-            <li><a href="#services" class="hover:text-blue-500 transition">خدماتنا</a></li>
-            <li><a href="#portfolio" class="hover:text-blue-500 transition">أعمالنا</a></li>
-            <li><a href="#contact" class="hover:text-blue-500 transition">تواصل معنا</a></li>
-        </ul>
-    </nav>
+<!-- NAV -->
+<nav class="fixed w-full bg-black/80 backdrop-blur border-b border-gray-800 px-6 py-4 flex justify-between z-50">
+    <h1 class="font-bold text-xl">NEXA</h1>
+    <div class="hidden md:flex gap-6">
+        <a href="#home">الرئيسية</a>
+        <a href="#services">الخدمات</a>
+        <a href="#projects">الأعمال</a>
+        <a href="#contact">تواصل</a>
+    </div>
+</nav>
 
-    <section id="home" class="h-screen flex flex-col justify-center items-center text-center px-6 accent-gradient">
-        <h1 class="text-4xl md:text-6xl font-bold mb-6 max-w-4xl leading-tight">
-            نحول الأفكار إلى <span class="text-blue-500">واقع رقمي</span> ملموس
-        </h1>
-        <p class="text-gray-400 text-lg md:text-xl max-w-2xl mb-10">
-            نقدم حلولاً تقنية مبتكرة تساعد الشركات على النمو والتميز في السوق الرقمي.
-        </p>
-        <div class="flex gap-4">
-            <a href="#contact" class="btn-primary text-white px-10 py-3 rounded-md font-bold">ابدأ الآن</a>
-            <a href="#portfolio" class="border border-gray-700 hover:border-gray-400 px-10 py-3 rounded-md transition">شاهد المشاريع</a>
-        </div>
-    </section>
+<!-- HERO -->
+<section id="home" class="h-screen flex flex-col justify-center items-center text-center px-6 fade">
+<h1 class="text-5xl md:text-7xl font-bold mb-6">
+حلول رقمية تصنع الفرق
+</h1>
+<p class="text-gray-400 mb-8 max-w-xl">
+نصمم ونطور تجارب رقمية تساعدك على النمو وتحقيق نتائج حقيقية.
+</p>
+<a href="#contact" class="btn px-8 py-3 rounded">ابدأ الآن</a>
+</section>
 
-    <section id="services" class="py-24 px-8 bg-[#0F0F0F]">
-        <div class="max-w-6xl mx-auto text-center mb-16">
-            <h2 class="text-3xl font-bold mb-4">خدماتنا الرئيسية</h2>
-            <p class="text-gray-500">نغطي كافة احتياجات مشروعك من التأسيس إلى الانطلاق</p>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <div class="p-8 bg-[#161616] border border-gray-800 hover:border-blue-500 transition">
-                <h3 class="text-xl font-bold mb-4">تطوير الويب</h3>
-                <p class="text-gray-500 text-sm leading-relaxed">بناء مواقع سريعة، آمنة، ومتوافقة مع جميع محركات البحث.</p>
-            </div>
-            <div class="p-8 bg-[#161616] border border-gray-800 hover:border-blue-500 transition">
-                <h3 class="text-xl font-bold mb-4">المتاجر الرقمية</h3>
-                <p class="text-gray-500 text-sm leading-relaxed">حلول متكاملة للتجارة الإلكترونية تضمن سهولة البيع والشراء.</p>
-            </div>
-            <div class="p-8 bg-[#161616] border border-gray-800 hover:border-blue-500 transition">
-                <h3 class="text-xl font-bold mb-4">استشارات تقنية</h3>
-                <p class="text-gray-500 text-sm leading-relaxed">نساعدك في اختيار التقنيات الأنسب لمشروعك لضمان الاستمرارية.</p>
-            </div>
-        </div>
-    </section>
+<!-- SERVICES -->
+<section id="services" class="py-20 px-8 fade">
+<h2 class="text-3xl text-center mb-12 font-bold">خدماتنا</h2>
 
-    <section id="contact" class="py-24 px-8 max-w-3xl mx-auto">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-bold">لنتحدث عن مشروعك القادم</h2>
-        </div>
-        <form class="space-y-6">
-            <div class="grid md:grid-cols-2 gap-6">
-                <input type="text" placeholder="الاسم" class="w-full p-4 bg-[#161616] border border-gray-800 rounded focus:border-blue-500 outline-none">
-                <input type="email" placeholder="البريد الإلكتروني" class="w-full p-4 bg-[#161616] border border-gray-800 rounded focus:border-blue-500 outline-none">
-            </div>
-            <textarea placeholder="تفاصيل المشروع" rows="5" class="w-full p-4 bg-[#161616] border border-gray-800 rounded focus:border-blue-500 outline-none"></textarea>
-            <button class="w-full btn-primary py-4 rounded font-bold uppercase tracking-wider">إرسال الطلب</button>
-        </form>
-    </section>
+<div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
 
-    <footer class="py-12 border-t border-gray-900 text-center text-gray-600 text-xs">
-        <p>© 2026 جميع الحقوق محفوظة لـ [اسم شركة العميل]</p>
-    </footer>
+<div class="bg-[#111] p-6 border border-gray-800">
+<h3 class="font-bold mb-3">تطوير مواقع</h3>
+<p class="text-gray-400 text-sm">مواقع سريعة وحديثة.</p>
+</div>
+
+<div class="bg-[#111] p-6 border border-gray-800">
+<h3 class="font-bold mb-3">متاجر إلكترونية</h3>
+<p class="text-gray-400 text-sm">أنظمة بيع متكاملة.</p>
+</div>
+
+<div class="bg-[#111] p-6 border border-gray-800">
+<h3 class="font-bold mb-3">تصميم UI/UX</h3>
+<p class="text-gray-400 text-sm">تجربة مستخدم احترافية.</p>
+</div>
+
+</div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="py-20 px-8 fade">
+<h2 class="text-3xl text-center mb-12 font-bold">أعمالنا</h2>
+
+<div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+
+<div onclick="openModal('متجر إلكتروني متكامل مع تجربة شراء سلسة')" class="cursor-pointer bg-[#111] p-6 border border-gray-800 hover:border-blue-500">
+<h3>VORNEX Store</h3>
+</div>
+
+<div onclick="openModal('منصة تعليمية تفاعلية بواجهة حديثة')" class="cursor-pointer bg-[#111] p-6 border border-gray-800 hover:border-blue-500">
+<h3>Nexa Learn</h3>
+</div>
+
+<div onclick="openModal('موقع شركة احترافي يعزز الثقة')" class="cursor-pointer bg-[#111] p-6 border border-gray-800 hover:border-blue-500">
+<h3>Orbital Agency</h3>
+</div>
+
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-20 px-8 max-w-xl mx-auto fade">
+<h2 class="text-3xl mb-6 text-center font-bold">تواصل معنا</h2>
+
+<form id="form" class="flex flex-col gap-4">
+<input required placeholder="اسمك" class="p-3 bg-[#111] border border-gray-700">
+<input required type="email" placeholder="بريدك" class="p-3 bg-[#111] border border-gray-700">
+<textarea required placeholder="تفاصيل المشروع" class="p-3 bg-[#111] border border-gray-700"></textarea>
+
+<button class="btn p-3 rounded">إرسال</button>
+</form>
+
+<p id="msg" class="text-green-400 mt-4 hidden">تم إرسال طلبك بنجاح ✔️</p>
+</section>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+<div class="bg-[#111] p-8 text-center max-w-sm">
+<p id="modalText"></p>
+<button onclick="closeModal()" class="mt-4 btn px-6 py-2">إغلاق</button>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer class="py-8 text-center text-gray-600 border-t border-gray-900">
+© 2026 NEXA
+</footer>
+
+<script>
+
+/* Fade animation */
+const fades = document.querySelectorAll('.fade');
+window.addEventListener('scroll', () => {
+    fades.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if(top < window.innerHeight - 100){
+            el.classList.add('show');
+        }
+    });
+});
+
+/* Modal */
+function openModal(text){
+    document.getElementById('modalText').innerText = text;
+    document.getElementById('modal').classList.add('active');
+}
+function closeModal(){
+    document.getElementById('modal').classList.remove('active');
+}
+
+/* Fake submit */
+document.getElementById('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('msg').classList.remove('hidden');
+    this.reset();
+});
+
+</script>
 
 </body>
 </html>
