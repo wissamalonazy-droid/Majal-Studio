@@ -1,182 +1,917 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEXA | Premium Digital Agency</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
+<title>لكسيكون الأمن السيبراني</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Tajawal:wght@300;400;700;900&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap');
+  :root {
+    --bg: #050a0f;
+    --surface: #0a1520;
+    --card: #0d1e2e;
+    --border: #1a3a5c;
+    --accent: #00d4ff;
+    --accent2: #ff3c5f;
+    --accent3: #00ff9d;
+    --accent4: #f0b429;
+    --text: #c8dce8;
+    --text-dim: #5a7a90;
+    --glow: 0 0 20px rgba(0,212,255,0.3);
+    --glow2: 0 0 20px rgba(255,60,95,0.3);
+  }
 
-body{
-    background:#0B0B0B;
-    color:#F3F4F6;
-    font-family:'Cairo',sans-serif;
-}
+- { margin:0; padding:0; box-sizing:border-box; }
 
-/* Effects */
-.fade{
-    opacity:0;
-    transform:translateY(20px);
-    transition:0.6s;
-}
-.fade.show{
-    opacity:1;
-    transform:translateY(0);
-}
-
-.btn{
-    background:#2563eb;
-    transition:0.3s;
-}
-.btn:hover{
-    background:#1d4ed8;
-    transform:translateY(-3px);
+body {
+background: var(–bg);
+color: var(–text);
+font-family: ‘Tajawal’, sans-serif;
+min-height: 100vh;
+overflow-x: hidden;
 }
 
-/* Modal */
-.modal{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.8);
-    justify-content:center;
-    align-items:center;
+/* Grid background */
+body::before {
+content:’’;
+position:fixed; inset:0;
+background-image:
+linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+background-size: 40px 40px;
+pointer-events:none;
+z-index:0;
 }
-.modal.active{
-    display:flex;
+
+/* Scanline effect */
+body::after {
+content:’’;
+position:fixed; inset:0;
+background: repeating-linear-gradient(
+0deg,
+transparent,
+transparent 2px,
+rgba(0,0,0,0.08) 2px,
+rgba(0,0,0,0.08) 4px
+);
+pointer-events:none;
+z-index:1;
+}
+
+.container { position:relative; z-index:2; max-width:1100px; margin:0 auto; padding:0 24px; }
+
+/* ===== HEADER ===== */
+header {
+padding: 60px 0 40px;
+text-align: center;
+position: relative;
+}
+
+.header-tag {
+font-family: ‘IBM Plex Mono’, monospace;
+font-size: 11px;
+color: var(–accent);
+letter-spacing: 4px;
+text-transform: uppercase;
+margin-bottom: 20px;
+opacity: 0;
+animation: fadeDown 0.6s ease 0.2s forwards;
+}
+
+header h1 {
+font-size: clamp(38px, 6vw, 72px);
+font-weight: 900;
+line-height: 1.1;
+color: #fff;
+margin-bottom: 16px;
+opacity: 0;
+animation: fadeDown 0.6s ease 0.4s forwards;
+}
+
+header h1 span {
+color: var(–accent);
+text-shadow: var(–glow);
+position: relative;
+}
+
+header h1 span::after {
+content: ‘’;
+position: absolute;
+bottom: -4px; right: 0; left: 0;
+height: 2px;
+background: var(–accent);
+box-shadow: var(–glow);
+}
+
+.header-sub {
+font-size: 15px;
+color: var(–text-dim);
+max-width: 560px;
+margin: 0 auto 40px;
+line-height: 1.8;
+opacity: 0;
+animation: fadeDown 0.6s ease 0.6s forwards;
+}
+
+.stats-row {
+display: flex;
+justify-content: center;
+gap: 40px;
+flex-wrap: wrap;
+opacity: 0;
+animation: fadeDown 0.6s ease 0.8s forwards;
+}
+
+.stat {
+text-align: center;
+border: 1px solid var(–border);
+padding: 14px 28px;
+background: var(–surface);
+position: relative;
+}
+
+.stat::before {
+content:’’;
+position:absolute;
+top:0; right:0;
+width:6px; height:6px;
+border-top:2px solid var(–accent);
+border-right:2px solid var(–accent);
+}
+
+.stat::after {
+content:’’;
+position:absolute;
+bottom:0; left:0;
+width:6px; height:6px;
+border-bottom:2px solid var(–accent);
+border-left:2px solid var(–accent);
+}
+
+.stat-num {
+font-family:‘IBM Plex Mono’, monospace;
+font-size:28px;
+font-weight:700;
+color: var(–accent);
+text-shadow: var(–glow);
+}
+
+.stat-label {
+font-size:12px;
+color: var(–text-dim);
+margin-top:4px;
+letter-spacing:1px;
+}
+
+/* ===== SEARCH ===== */
+.search-wrap {
+margin: 50px 0 30px;
+position: relative;
+opacity: 0;
+animation: fadeUp 0.6s ease 1s forwards;
+}
+
+.search-wrap input {
+width: 100%;
+background: var(–surface);
+border: 1px solid var(–border);
+color: var(–text);
+font-family:‘Tajawal’, sans-serif;
+font-size:16px;
+padding: 16px 56px 16px 20px;
+outline: none;
+transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.search-wrap input:focus {
+border-color: var(–accent);
+box-shadow: var(–glow);
+}
+
+.search-wrap input::placeholder { color: var(–text-dim); }
+
+.search-icon {
+position:absolute;
+left:18px; top:50%;
+transform:translateY(-50%);
+color: var(–text-dim);
+font-family:‘IBM Plex Mono’, monospace;
+font-size:18px;
+}
+
+/* ===== FILTERS ===== */
+.filters {
+display: flex;
+flex-wrap: wrap;
+gap: 10px;
+margin-bottom: 40px;
+opacity: 0;
+animation: fadeUp 0.6s ease 1.1s forwards;
+}
+
+.filter-btn {
+background: transparent;
+border: 1px solid var(–border);
+color: var(–text-dim);
+font-family:‘Tajawal’, sans-serif;
+font-size:13px;
+padding: 8px 18px;
+cursor:pointer;
+transition: all 0.25s;
+letter-spacing:1px;
+}
+
+.filter-btn:hover, .filter-btn.active {
+border-color: var(–accent);
+color: var(–accent);
+background: rgba(0,212,255,0.08);
+box-shadow: var(–glow);
+}
+
+.filter-btn[data-cat=“red”].active {
+border-color: var(–accent2);
+color: var(–accent2);
+background: rgba(255,60,95,0.08);
+box-shadow: var(–glow2);
+}
+
+.filter-btn[data-cat=“green”].active {
+border-color: var(–accent3);
+color: var(–accent3);
+background: rgba(0,255,157,0.08);
+}
+
+/* ===== GLOSSARY GRID ===== */
+.section-title {
+font-family:‘IBM Plex Mono’, monospace;
+font-size:11px;
+color: var(–accent);
+letter-spacing:4px;
+text-transform:uppercase;
+margin-bottom:24px;
+display:flex;
+align-items:center;
+gap:16px;
+}
+
+.section-title::after {
+content:’’;
+flex:1;
+height:1px;
+background: linear-gradient(90deg, var(–border), transparent);
+}
+
+.glossary-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+gap: 16px;
+margin-bottom: 60px;
+}
+
+.term-card {
+background: var(–card);
+border: 1px solid var(–border);
+padding: 24px;
+position: relative;
+cursor: pointer;
+transition: all 0.25s;
+opacity: 0;
+transform: translateY(12px);
+animation: cardIn 0.5s ease forwards;
+}
+
+.term-card:hover {
+border-color: var(–accent);
+box-shadow: var(–glow);
+transform: translateY(-2px);
+}
+
+.term-card.cat-red:hover { border-color:var(–accent2); box-shadow:var(–glow2); }
+.term-card.cat-green:hover { border-color:var(–accent3); box-shadow:0 0 20px rgba(0,255,157,0.3); }
+.term-card.cat-yellow:hover { border-color:var(–accent4); box-shadow:0 0 20px rgba(240,180,41,0.3); }
+
+.term-card::before {
+content:’’;
+position:absolute;
+top:0; right:0;
+width:0;
+height:2px;
+background: var(–accent);
+transition: width 0.3s;
+}
+
+.term-card:hover::before { width:100%; }
+.term-card.cat-red::before { background:var(–accent2); }
+.term-card.cat-green::before { background:var(–accent3); }
+.term-card.cat-yellow::before { background:var(–accent4); }
+
+.term-header {
+display: flex;
+align-items:flex-start;
+justify-content:space-between;
+gap:12px;
+margin-bottom:12px;
+}
+
+.term-ar {
+font-size: 18px;
+font-weight: 700;
+color: #fff;
+line-height:1.3;
+}
+
+.term-en {
+font-family:‘IBM Plex Mono’, monospace;
+font-size:10px;
+color: var(–text-dim);
+margin-top:4px;
+letter-spacing:1px;
+}
+
+.cat-badge {
+font-family:‘IBM Plex Mono’, monospace;
+font-size:9px;
+padding:4px 10px;
+letter-spacing:2px;
+text-transform:uppercase;
+white-space:nowrap;
+flex-shrink:0;
+margin-top:2px;
+}
+
+.cat-blue { border:1px solid var(–accent); color:var(–accent); background:rgba(0,212,255,0.08); }
+.cat-red-badge { border:1px solid var(–accent2); color:var(–accent2); background:rgba(255,60,95,0.08); }
+.cat-green-badge { border:1px solid var(–accent3); color:var(–accent3); background:rgba(0,255,157,0.08); }
+.cat-yellow-badge { border:1px solid var(–accent4); color:var(–accent4); background:rgba(240,180,41,0.08); }
+
+.term-def {
+font-size:14px;
+color: var(–text-dim);
+line-height:1.8;
+border-top:1px solid var(–border);
+padding-top:12px;
+margin-top:4px;
+}
+
+.term-def strong {
+color: var(–text);
+font-weight:700;
+}
+
+.term-example {
+margin-top:10px;
+padding:10px 14px;
+background: rgba(0,212,255,0.04);
+border-right:2px solid var(–accent);
+font-size:13px;
+color:var(–text-dim);
+line-height:1.7;
+display:none;
+}
+
+.term-card:hover .term-example { display:block; }
+.term-card.cat-red .term-example { border-right-color:var(–accent2); background:rgba(255,60,95,0.04); }
+.term-card.cat-green .term-example { border-right-color:var(–accent3); background:rgba(0,255,157,0.04); }
+.term-card.cat-yellow .term-example { border-right-color:var(–accent4); background:rgba(240,180,41,0.04); }
+
+.example-label {
+font-family:‘IBM Plex Mono’, monospace;
+font-size:9px;
+letter-spacing:2px;
+color:var(–accent);
+text-transform:uppercase;
+margin-bottom:6px;
+}
+
+.term-card.cat-red .example-label { color:var(–accent2); }
+.term-card.cat-green .example-label { color:var(–accent3); }
+.term-card.cat-yellow .example-label { color:var(–accent4); }
+
+/* ===== NO RESULTS ===== */
+.no-results {
+text-align:center;
+padding:60px 20px;
+color:var(–text-dim);
+display:none;
+}
+
+.no-results .code { font-family:‘IBM Plex Mono’, monospace; font-size:40px; color:var(–border); }
+
+/* ===== FOOTER ===== */
+footer {
+border-top:1px solid var(–border);
+padding:30px 0;
+text-align:center;
+font-family:‘IBM Plex Mono’, monospace;
+font-size:11px;
+color:var(–text-dim);
+letter-spacing:2px;
+position:relative;
+z-index:2;
+}
+
+footer span { color:var(–accent); }
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeDown {
+from { opacity:0; transform:translateY(-16px); }
+to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeUp {
+from { opacity:0; transform:translateY(16px); }
+to   { opacity:1; transform:translateY(0); }
+}
+@keyframes cardIn {
+to { opacity:1; transform:translateY(0); }
+}
+
+/* Glitch on title */
+@keyframes glitch {
+0%,94%,100% { clip-path:none; transform:none; }
+95% { clip-path:inset(30% 0 40% 0); transform:translateX(-4px); }
+97% { clip-path:inset(60% 0 10% 0); transform:translateX(4px); }
+}
+
+header h1 { animation: fadeDown 0.6s ease 0.4s forwards, glitch 8s infinite 2s; }
+
+/* Count display */
+.count-badge {
+font-family:‘IBM Plex Mono’, monospace;
+font-size:11px;
+color:var(–text-dim);
+margin-bottom:16px;
+letter-spacing:2px;
+}
+
+.count-badge span { color:var(–accent); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(–bg); }
+::-webkit-scrollbar-thumb { background:var(–border); }
+::-webkit-scrollbar-thumb:hover { background:var(–accent); }
+
+/* Responsive */
+@media(max-width:600px) {
+.stats-row { gap:16px; }
+.stat { padding:10px 16px; }
+.stat-num { font-size:22px; }
+.glossary-grid { grid-template-columns:1fr; }
+.filters { gap:8px; }
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<!-- NAV -->
-<nav class="fixed w-full bg-black/80 backdrop-blur border-b border-gray-800 px-6 py-4 flex justify-between z-50">
-    <h1 class="font-bold text-xl">NEXA</h1>
-    <div class="hidden md:flex gap-6">
-        <a href="#home">الرئيسية</a>
-        <a href="#services">الخدمات</a>
-        <a href="#projects">الأعمال</a>
-        <a href="#contact">تواصل</a>
+<div class="container">
+
+  <!-- HEADER -->
+
+  <header>
+    <div class="header-tag">// CYBERSECURITY LEXICON v2.0 //</div>
+    <h1>لُغة <span>الأمن</span><br>السيبراني</h1>
+    <p class="header-sub">المرجع الشامل للمصطلحات التقنية — تعريفات دقيقة، أمثلة عملية، تصنيف احترافي لكل مفهوم في عالم الأمن الرقمي</p>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num" id="totalCount">0</div><div class="stat-label">مصطلح</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">تصنيف</div></div>
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">عربي</div></div>
     </div>
-</nav>
+  </header>
 
-<!-- HERO -->
-<section id="home" class="h-screen flex flex-col justify-center items-center text-center px-6 fade">
-<h1 class="text-5xl md:text-7xl font-bold mb-6">
-حلول رقمية تصنع الفرق
-</h1>
-<p class="text-gray-400 mb-8 max-w-xl">
-نصمم ونطور تجارب رقمية تساعدك على النمو وتحقيق نتائج حقيقية.
-</p>
-<a href="#contact" class="btn px-8 py-3 rounded">ابدأ الآن</a>
-</section>
+  <!-- SEARCH -->
 
-<!-- SERVICES -->
-<section id="services" class="py-20 px-8 fade">
-<h2 class="text-3xl text-center mb-12 font-bold">خدماتنا</h2>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="ابحث عن مصطلح... مثل: تصيّد، جدار حماية، برمجيات خبيثة">
+    <span class="search-icon">⌕</span>
+  </div>
 
-<div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+  <!-- FILTERS -->
 
-<div class="bg-[#111] p-6 border border-gray-800">
-<h3 class="font-bold mb-3">تطوير مواقع</h3>
-<p class="text-gray-400 text-sm">مواقع سريعة وحديثة.</p>
-</div>
+  <div class="filters">
+    <button class="filter-btn active" data-cat="all">الكل</button>
+    <button class="filter-btn" data-cat="blue">الأساسيات</button>
+    <button class="filter-btn" data-cat="red">الهجمات</button>
+    <button class="filter-btn" data-cat="green">الحماية والدفاع</button>
+    <button class="filter-btn" data-cat="yellow">التشفير والشبكات</button>
+  </div>
 
-<div class="bg-[#111] p-6 border border-gray-800">
-<h3 class="font-bold mb-3">متاجر إلكترونية</h3>
-<p class="text-gray-400 text-sm">أنظمة بيع متكاملة.</p>
-</div>
+  <!-- COUNT -->
 
-<div class="bg-[#111] p-6 border border-gray-800">
-<h3 class="font-bold mb-3">تصميم UI/UX</h3>
-<p class="text-gray-400 text-sm">تجربة مستخدم احترافية.</p>
-</div>
+  <div class="count-badge" id="countBadge">عرض <span id="shownCount">0</span> مصطلح</div>
 
-</div>
-</section>
+  <!-- SECTION -->
 
-<!-- PROJECTS -->
-<section id="projects" class="py-20 px-8 fade">
-<h2 class="text-3xl text-center mb-12 font-bold">أعمالنا</h2>
+  <div class="section-title">قاموس المصطلحات</div>
 
-<div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-
-<div onclick="openModal('متجر إلكتروني متكامل مع تجربة شراء سلسة')" class="cursor-pointer bg-[#111] p-6 border border-gray-800 hover:border-blue-500">
-<h3>VORNEX Store</h3>
-</div>
-
-<div onclick="openModal('منصة تعليمية تفاعلية بواجهة حديثة')" class="cursor-pointer bg-[#111] p-6 border border-gray-800 hover:border-blue-500">
-<h3>Nexa Learn</h3>
-</div>
-
-<div onclick="openModal('موقع شركة احترافي يعزز الثقة')" class="cursor-pointer bg-[#111] p-6 border border-gray-800 hover:border-blue-500">
-<h3>Orbital Agency</h3>
-</div>
+  <div class="glossary-grid" id="glossaryGrid"></div>
+  <div class="no-results" id="noResults">
+    <div class="code">404</div>
+    <p style="margin-top:16px">لم يُعثر على مصطلح بهذا الاسم</p>
+  </div>
 
 </div>
-</section>
 
-<!-- CONTACT -->
-<section id="contact" class="py-20 px-8 max-w-xl mx-auto fade">
-<h2 class="text-3xl mb-6 text-center font-bold">تواصل معنا</h2>
-
-<form id="form" class="flex flex-col gap-4">
-<input required placeholder="اسمك" class="p-3 bg-[#111] border border-gray-700">
-<input required type="email" placeholder="بريدك" class="p-3 bg-[#111] border border-gray-700">
-<textarea required placeholder="تفاصيل المشروع" class="p-3 bg-[#111] border border-gray-700"></textarea>
-
-<button class="btn p-3 rounded">إرسال</button>
-</form>
-
-<p id="msg" class="text-green-400 mt-4 hidden">تم إرسال طلبك بنجاح ✔️</p>
-</section>
-
-<!-- MODAL -->
-<div id="modal" class="modal">
-<div class="bg-[#111] p-8 text-center max-w-sm">
-<p id="modalText"></p>
-<button onclick="closeModal()" class="mt-4 btn px-6 py-2">إغلاق</button>
-</div>
-</div>
-
-<!-- FOOTER -->
-<footer class="py-8 text-center text-gray-600 border-t border-gray-900">
-© 2026 NEXA
+<footer>
+  <div class="container">
+    لكسيكون الأمن السيبراني — <span>المرجع الاحترافي</span> // CYBER LEXICON
+  </div>
 </footer>
 
 <script>
+const terms = [
+  // ======== BLUE: الأساسيات ========
+  {
+    ar: "الأمن السيبراني",
+    en: "Cybersecurity",
+    cat: "blue",
+    catLabel: "الأساسيات",
+    def: "مجموعة الممارسات والتقنيات والعمليات المصممة لـ<strong>حماية الأنظمة والشبكات والبيانات</strong> من الهجمات الرقمية والوصول غير المصرّح.",
+    example: "مثال: تطبيق سياسة أمنية تشمل المصادقة الثنائية وتشفير البيانات وجدار الحماية."
+  },
+  {
+    ar: "الثغرة الأمنية",
+    en: "Vulnerability",
+    cat: "blue",
+    catLabel: "الأساسيات",
+    def: "<strong>ضعف أو خلل</strong> في نظام أو تطبيق أو شبكة يمكن استغلاله من قِبل مهاجم لاختراق النظام أو تعطيله.",
+    example: "مثال: ثغرة Buffer Overflow في برنامج تتيح للمهاجم حقن كود ضار وتنفيذه بصلاحيات عالية."
+  },
+  {
+    ar: "الاستغلال",
+    en: "Exploit",
+    cat: "blue",
+    catLabel: "الأساسيات",
+    def: "<strong>كود أو تقنية</strong> تستفيد من ثغرة أمنية موجودة في نظام ما لتنفيذ عملية غير مصرّح بها، سواء لرفع الصلاحيات أو تنفيذ أوامر.",
+    example: "مثال: استخدام EternalBlue لاستغلال ثغرة SMB في ويندوز ونشر برنامج WannaCry."
+  },
+  {
+    ar: "التهديد المتقدم المستمر",
+    en: "APT – Advanced Persistent Threat",
+    cat: "blue",
+    catLabel: "الأساسيات",
+    def: "هجوم سيبراني <strong>متطور وطويل الأمد</strong> تنفذه جهات ممولة عادةً (حكومات أو عصابات احترافية) بهدف التجسس أو التخريب مع البقاء مخفياً لأطول وقت.",
+    example: "مثال: مجموعة APT29 (Cozy Bear) الروسية اخترقت شركة SolarWinds وبقيت خفية لأشهر."
+  },
+  {
+    ar: "مؤشر الاختراق",
+    en: "IOC – Indicator of Compromise",
+    cat: "blue",
+    catLabel: "الأساسيات",
+    def: "دليل جنائي رقمي يشير إلى احتمال <strong>اختراق النظام</strong>، مثل عناوين IP مشبوهة أو هاش ملف خبيث أو نطاق مشبوه.",
+    example: "مثال: وجود اتصال منتظم للجهاز مع IP خارجي غير معروف يُعد IOC يستوجب التحقيق."
+  },
+  {
+    ar: "نموذج CIA الثلاثي",
+    en: "CIA Triad",
+    cat: "blue",
+    catLabel: "الأساسيات",
+    def: "الركائز الثلاثة للأمن المعلوماتي: <strong>السرية</strong> (Confidentiality) + <strong>السلامة</strong> (Integrity) + <strong>التوافر</strong> (Availability).",
+    example: "مثال: تشفير البيانات يضمن السرية، والتوقيع الرقمي يضمن السلامة، والنسخ الاحتياطي يضمن التوافر."
+  },
+  {
+    ar: "سطح الهجوم",
+    en: "Attack Surface",
+    cat: "blue",
+    catLabel: "الأساسيات",
+    def: "إجمالي <strong>نقاط الدخول المحتملة</strong> التي يمكن لمهاجم استغلالها في نظام أو شبكة أو تطبيق.",
+    example: "مثال: كلما زاد عدد المنافذ المفتوحة والخدمات الشبكية، كلما اتّسع سطح الهجوم."
+  },
+  {
+    ar: "الهندسة العكسية",
+    en: "Reverse Engineering",
+    cat: "blue",
+    catLabel: "الأساسيات",
+    def: "تحليل <strong>برنامج أو نظام من الناتج للمدخل</strong> لفهم آليته الداخلية، يُستخدم في تحليل البرمجيات الخبيثة واكتشاف الثغرات.",
+    example: "مثال: فك تجميع ملف .exe باستخدام IDA Pro لفهم كيفية عمل برنامج فدية."
+  },
+  {
+    ar: "الصلاحيات والتحكم بالوصول",
+    en: "Access Control",
+    cat: "blue",
+    catLabel: "الأساسيات",
+    def: "نظام يحدد <strong>من يستطيع الوصول</strong> إلى الموارد وبأي مستوى، يشمل نماذج RBAC وDAC وMAC.",
+    example: "مثال: المستخدم العادي يستطيع القراءة فقط، بينما المدير يستطيع القراءة والكتابة والحذف."
+  },
+  {
+    ar: "الاختبار بالاختراق",
+    en: "Penetration Testing",
+    cat: "blue",
+    catLabel: "الأساسيات",
+    def: "محاكاة <strong>هجوم سيبراني حقيقي</strong> بإذن رسمي لاكتشاف الثغرات قبل أن يستغلها المهاجمون، يُنفَّذ بمراحل: استطلاع، استغلال، تصعيد الصلاحيات، تقرير.",
+    example: "مثال: تنفيذ اختبار اختراق بأسلوب Black Box لاختبار موقع إلكتروني دون معرفة مسبقة بالبنية."
+  },
 
-/* Fade animation */
-const fades = document.querySelectorAll('.fade');
-window.addEventListener('scroll', () => {
-    fades.forEach(el => {
-        const top = el.getBoundingClientRect().top;
-        if(top < window.innerHeight - 100){
-            el.classList.add('show');
-        }
-    });
+  // ======== RED: الهجمات ========
+  {
+    ar: "التصيّد الاحتيالي",
+    en: "Phishing",
+    cat: "red",
+    catLabel: "الهجمات",
+    def: "هجوم <strong>خداعي اجتماعي</strong> يتظاهر فيه المهاجم بجهة موثوقة لسرقة بيانات حساسة ككلمات المرور وبيانات البطاقات عبر رسائل إلكترونية أو روابط مزيفة.",
+    example: "مثال: رسالة تنتحل هوية البنك تطلب منك 'التحقق من حسابك' عبر رابط موقع مزيف."
+  },
+  {
+    ar: "هجوم حرمان الخدمة الموزع",
+    en: "DDoS – Distributed Denial of Service",
+    cat: "red",
+    catLabel: "الهجمات",
+    def: "إغراق الخادم أو الشبكة بـ<strong>ملايين الطلبات المزيفة</strong> من آلاف الأجهزة المخترقة (Botnet) لتعطيل الخدمة وجعلها غير متاحة.",
+    example: "مثال: هجوم على منصة ألعاب يُرسل 1 تيرابيت/ثانية من الطلبات ويُعطّل الخدمة لساعات."
+  },
+  {
+    ar: "برنامج الفدية",
+    en: "Ransomware",
+    cat: "red",
+    catLabel: "الهجمات",
+    def: "برمجية خبيثة <strong>تشفّر ملفات الضحية</strong> وتطالب بفدية مالية (عادةً بعملات مشفرة) مقابل مفتاح فك التشفير.",
+    example: "مثال: هجوم WannaCry 2017 أصاب 200,000 جهاز في 150 دولة وطالب بفدية بالبيتكوين."
+  },
+  {
+    ar: "هجوم الوسيط",
+    en: "MITM – Man in The Middle",
+    cat: "red",
+    catLabel: "الهجمات",
+    def: "اعتراض المهاجم <strong>الاتصال بين طرفين</strong> دون علمهما، مما يتيح قراءة البيانات أو تعديلها أو حقن محتوى خبيث.",
+    example: "مثال: المهاجم على نفس شبكة Wi-Fi يعترض بيانات تسجيل الدخول قبل وصولها للخادم."
+  },
+  {
+    ar: "حقن SQL",
+    en: "SQL Injection",
+    cat: "red",
+    catLabel: "الهجمات",
+    def: "حقن <strong>أوامر SQL خبيثة</strong> في حقول إدخال التطبيق للتلاعب بقاعدة البيانات وسرقة البيانات أو حذفها أو تعديلها.",
+    example: "مثال: إدخال `' OR '1'='1` في حقل كلمة المرور للتحايل على نظام تسجيل الدخول."
+  },
+  {
+    ar: "البرمجة عبر المواقع",
+    en: "XSS – Cross-Site Scripting",
+    cat: "red",
+    catLabel: "الهجمات",
+    def: "حقن <strong>سكريبت JavaScript خبيث</strong> في صفحات الويب ليُنفَّذ على متصفح المستخدمين الآخرين، يُستخدم لسرقة الجلسات والكوكيز.",
+    example: "مثال: حقن كود في حقل التعليقات يسرق ملف كوكي المستخدمين الذين يشاهدون الصفحة."
+  },
+  {
+    ar: "الهندسة الاجتماعية",
+    en: "Social Engineering",
+    cat: "red",
+    catLabel: "الهجمات",
+    def: "التلاعب النفسي بالأشخاص لإقناعهم بـ<strong>الكشف عن معلومات سرية</strong> أو تنفيذ إجراءات تُعرّض الأمن للخطر.",
+    example: "مثال: انتحال هوية موظف IT والاتصال بموظف لإقناعه بإعطائه كلمة المرور لـ'إصلاح مشكلة عاجلة'."
+  },
+  {
+    ar: "الباب الخلفي",
+    en: "Backdoor",
+    cat: "red",
+    catLabel: "الهجمات",
+    def: "مدخل خفي مزروع في النظام أو التطبيق يتيح للمهاجم <strong>الوصول الدائم</strong> متجاوزاً آليات المصادقة الاعتيادية.",
+    example: "مثال: مهاجم يزرع Backdoor بعد الاختراق الأولي ليضمن إعادة الدخول حتى بعد إغلاق الثغرة."
+  },
+  {
+    ar: "هجوم القوة الغاشمة",
+    en: "Brute Force Attack",
+    cat: "red",
+    catLabel: "الهجمات",
+    def: "محاولة <strong>جميع التوليفات الممكنة</strong> لكلمة المرور أو المفتاح السري بشكل آلي حتى إيجاد الصحيح.",
+    example: "مثال: استخدام Hashcat لاختبار ملايين كلمات المرور في الثانية ضد هاش مسرَّب."
+  },
+  {
+    ar: "البرمجية الخبيثة بدون ملف",
+    en: "Fileless Malware",
+    cat: "red",
+    catLabel: "الهجمات",
+    def: "هجوم لا يترك <strong>ملفاً على القرص</strong> بل يعمل بالكامل في ذاكرة RAM مستخدماً أدوات النظام الشرعية كـPowerShell.",
+    example: "مثال: هجوم يستخدم PowerShell لتحميل كود خبيث مباشرة في الذاكرة وتنفيذه بصلاحيات النظام."
+  },
+
+  // ======== GREEN: الحماية والدفاع ========
+  {
+    ar: "جدار الحماية",
+    en: "Firewall",
+    cat: "green",
+    catLabel: "الحماية",
+    def: "نظام أمني يراقب ويتحكم في <strong>حركة مرور الشبكة الواردة والصادرة</strong> بناءً على قواعد أمنية محددة، يعمل كحاجز بين الشبكة الداخلية والخارجية.",
+    example: "مثال: جدار حماية يحجب جميع الاتصالات الواردة على المنفذ 23 (Telnet) ويسمح فقط بالمنفذ 443."
+  },
+  {
+    ar: "المصادقة الثنائية",
+    en: "2FA – Two-Factor Authentication",
+    cat: "green",
+    catLabel: "الحماية",
+    def: "طبقة حماية إضافية تطلب <strong>عاملين للتحقق من الهوية</strong>: شيء تعرفه (كلمة مرور) + شيء تملكه (رمز SMS أو تطبيق مصادقة).",
+    example: "مثال: حتى لو سُرقت كلمة مرورك، لا يستطيع المهاجم تسجيل الدخول بدون الرمز المؤقت في هاتفك."
+  },
+  {
+    ar: "نظام كشف التسلل",
+    en: "IDS – Intrusion Detection System",
+    cat: "green",
+    catLabel: "الحماية",
+    def: "نظام يراقب الشبكة أو الأجهزة <strong>لاكتشاف الأنشطة المشبوهة</strong> والهجمات وإرسال تنبيهات فورية دون التدخل المباشر.",
+    example: "مثال: Snort يكتشف نمط هجوم Port Scan ويُرسل تنبيهاً لفريق SOC."
+  },
+  {
+    ar: "منطقة منزوعة السلاح",
+    en: "DMZ – Demilitarized Zone",
+    cat: "green",
+    catLabel: "الحماية",
+    def: "شبكة فرعية معزولة تقع <strong>بين الشبكة الداخلية والإنترنت</strong>، تُستضاف فيها الخدمات العامة كالخوادم الإلكترونية بعيداً عن البيانات الحساسة.",
+    example: "مثال: وضع خادم الويب في DMZ بحيث حتى لو اختُرق، لا يستطيع المهاجم الوصول للشبكة الداخلية."
+  },
+  {
+    ar: "المصيدة الأمنية",
+    en: "Honeypot",
+    cat: "green",
+    catLabel: "الحماية",
+    def: "نظام مُصمَّم <strong>ليكون فخاً للمهاجمين</strong>، يبدو كهدف جذاب لكنه يرصد ويسجّل كل نشاط للمهاجمين لتحليله.",
+    example: "مثال: خادم وهمي يحاكي قاعدة بيانات حساسة لاستقطاب المهاجمين وتحليل أساليبهم."
+  },
+  {
+    ar: "الحاوية الأمنية",
+    en: "Sandbox",
+    cat: "green",
+    catLabel: "الحماية",
+    def: "بيئة معزولة <strong>لتشغيل واختبار البرمجيات المشبوهة</strong> بأمان دون التأثير على النظام الأصلي.",
+    example: "مثال: تشغيل مرفق بريد إلكتروني مشبوه داخل Sandbox لرصد سلوكه قبل السماح له على الشبكة."
+  },
+  {
+    ar: "الثقة الصفرية",
+    en: "Zero Trust",
+    cat: "green",
+    catLabel: "الحماية",
+    def: "نموذج أمني يقوم على مبدأ <strong>'لا تثق بأحد، تحقق من الجميع'</strong>، حتى المستخدمون داخل الشبكة يخضعون للتحقق المستمر.",
+    example: "مثال: كل طلب وصول للموارد يُعيد التحقق من هوية المستخدم وصحة جهازه ومستوى صلاحياته."
+  },
+  {
+    ar: "فريق الاستجابة للحوادث",
+    en: "CSIRT – Computer Security Incident Response",
+    cat: "green",
+    catLabel: "الحماية",
+    def: "فريق متخصص <strong>للاستجابة الفورية</strong> لحوادث الأمن السيبراني، يتولى الاحتواء والتحليل والاسترداد والتوثيق.",
+    example: "مثال: CSIRT يتدخل عند اكتشاف اختراق لعزل الأنظمة المصابة وتحديد نطاق الضرر."
+  },
+  {
+    ar: "مركز عمليات الأمن",
+    en: "SOC – Security Operations Center",
+    cat: "green",
+    catLabel: "الحماية",
+    def: "مركز مراقبة متخصص يعمل <strong>24/7</strong> لرصد التهديدات الأمنية وتحليلها والاستجابة لها عبر أدوات SIEM وغيرها.",
+    example: "مثال: محللو SOC يراجعون آلاف التنبيهات يومياً لتحديد التهديدات الحقيقية وعزلها عن الإيجابيات الكاذبة."
+  },
+  {
+    ar: "تحديث التصحيح الأمني",
+    en: "Security Patch",
+    cat: "green",
+    catLabel: "الحماية",
+    def: "تحديث برمجي <strong>يُسدّ ثغرات أمنية</strong> معروفة في نظام أو تطبيق، يُعدّ من أهم ممارسات الأمن الاستباقي.",
+    example: "مثال: كان بإمكان 99% من ضحايا WannaCry تجنّب الإصابة بتطبيق تحديث MS17-010 الذي أصدرته مايكروسوفت."
+  },
+
+  // ======== YELLOW: التشفير والشبكات ========
+  {
+    ar: "التشفير غير المتماثل",
+    en: "Asymmetric Encryption",
+    cat: "yellow",
+    catLabel: "التشفير",
+    def: "نظام تشفير يستخدم <strong>مفتاحين مختلفين</strong>: مفتاح عام للتشفير ومفتاح خاص لفك التشفير، يُستخدم في SSL/TLS والتوقيع الرقمي.",
+    example: "مثال: عند الاتصال بموقع HTTPS، يستخدم متصفحك المفتاح العام للخادم لتشفير الجلسة."
+  },
+  {
+    ar: "دالة الهاش",
+    en: "Hash Function",
+    cat: "yellow",
+    catLabel: "التشفير",
+    def: "خوارزمية <strong>تحوّل بيانات بأي حجم لقيمة ثابتة الطول</strong> (البصمة الرقمية)، أحادية الاتجاه ولا يمكن عكسها نظرياً.",
+    example: "مثال: SHA-256 يحوّل أي نص لقيمة 64 حرفاً سداسياً — تغيير حرف واحد يغيّر الهاش كلياً."
+  },
+  {
+    ar: "الشبكة الافتراضية الخاصة",
+    en: "VPN – Virtual Private Network",
+    cat: "yellow",
+    catLabel: "الشبكات",
+    def: "تقنية تنشئ <strong>نفقاً مشفراً</strong> بين الجهاز والإنترنت لحماية الخصوصية وإخفاء عنوان IP الحقيقي.",
+    example: "مثال: موظف يعمل عن بُعد يستخدم VPN للوصول الآمن لموارد الشركة الداخلية عبر الإنترنت."
+  },
+  {
+    ar: "شهادة SSL/TLS",
+    en: "SSL/TLS Certificate",
+    cat: "yellow",
+    catLabel: "التشفير",
+    def: "وثيقة رقمية <strong>تُثبت هوية الموقع وتُشفّر الاتصال</strong> بين المتصفح والخادم، يُشير إليها رمز القفل في شريط العنوان.",
+    example: "مثال: موقع HTTPS يستخدم TLS 1.3 لتشفير كل البيانات المتبادلة بمفتاح تشفير مؤقت لكل جلسة."
+  },
+  {
+    ar: "بروتوكول SSH",
+    en: "SSH – Secure Shell",
+    cat: "yellow",
+    catLabel: "الشبكات",
+    def: "بروتوكول شبكي مشفّر <strong>للوصول الآمن للأجهزة البعيدة</strong> عبر الإنترنت، يحل محل Telnet غير الآمن.",
+    example: "مثال: مدير النظام يستخدم SSH لإدارة خوادم Linux عن بُعد بمصادقة المفتاح بدلاً من كلمة المرور."
+  },
+  {
+    ar: "التوقيع الرقمي",
+    en: "Digital Signature",
+    cat: "yellow",
+    catLabel: "التشفير",
+    def: "تقنية تضمن <strong>أصالة وسلامة البيانات</strong> باستخدام التشفير غير المتماثل، تُثبت أن المُرسِل هو من يدّعيه وأن البيانات لم تُعدَّل.",
+    example: "مثال: التوقيع الرقمي على تحديث برمجي يضمن أنه صادر فعلاً من الشركة ولم يُعدَّل في الطريق."
+  },
+  {
+    ar: "بنية الشبكة والتقسيم",
+    en: "Network Segmentation",
+    cat: "yellow",
+    catLabel: "الشبكات",
+    def: "تقسيم الشبكة إلى <strong>أجزاء معزولة (VLANs)</strong> للحد من انتشار الهجمات وتطبيق سياسات وصول مختلفة لكل قطاع.",
+    example: "مثال: فصل شبكة المختبر عن شبكة الموارد البشرية بحيث اختراق أحدهما لا يؤثر على الآخر."
+  },
+  {
+    ar: "إدارة الهوية والوصول",
+    en: "IAM – Identity and Access Management",
+    cat: "yellow",
+    catLabel: "الشبكات",
+    def: "إطار عمل شامل يدير <strong>هويات المستخدمين وصلاحياتهم</strong> للتأكد من وصول الشخص الصحيح للمورد الصحيح في الوقت الصحيح.",
+    example: "مثال: AWS IAM يسمح للمطور بقراءة S3 فقط بينما يمنح المشرف صلاحيات إدارية كاملة."
+  },
+  {
+    ar: "الاستخبارات الأمنية",
+    en: "Threat Intelligence",
+    cat: "yellow",
+    catLabel: "الشبكات",
+    def: "جمع وتحليل معلومات حول <strong>التهديدات الحالية والمستقبلية</strong>، يشمل TTPs للمهاجمين وIOCs والأدوات المستخدمة.",
+    example: "مثال: استخدام MITRE ATT&CK Framework لتحليل أسلوب هجوم مجموعة APT وتحسين الدفاعات."
+  }
+];
+
+// Render
+const grid = document.getElementById('glossaryGrid');
+const searchInput = document.getElementById('searchInput');
+const noResults = document.getElementById('noResults');
+const totalCount = document.getElementById('totalCount');
+const shownCount = document.getElementById('shownCount');
+
+totalCount.textContent = terms.length;
+
+function getBadgeClass(cat) {
+  return cat === 'blue' ? 'cat-blue' :
+         cat === 'red'  ? 'cat-red-badge' :
+         cat === 'green'? 'cat-green-badge' : 'cat-yellow-badge';
+}
+
+function render(list) {
+  grid.innerHTML = '';
+  if (list.length === 0) {
+    noResults.style.display = 'block';
+    shownCount.textContent = 0;
+    return;
+  }
+  noResults.style.display = 'none';
+  shownCount.textContent = list.length;
+
+  list.forEach((t, i) => {
+    const card = document.createElement('div');
+    card.className = `term-card cat-${t.cat}`;
+    card.style.animationDelay = `${i * 0.05}s`;
+    card.innerHTML = `
+      <div class="term-header">
+        <div>
+          <div class="term-ar">${t.ar}</div>
+          <div class="term-en">${t.en}</div>
+        </div>
+        <div class="cat-badge ${getBadgeClass(t.cat)}">${t.catLabel}</div>
+      </div>
+      <div class="term-def">${t.def}</div>
+      ${t.example ? `<div class="term-example"><div class="example-label">// مثال تطبيقي</div>${t.example}</div>` : ''}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+let activeFilter = 'all';
+
+function applyFilters() {
+  const q = searchInput.value.trim().toLowerCase();
+  let filtered = terms;
+  if (activeFilter !== 'all') filtered = filtered.filter(t => t.cat === activeFilter);
+  if (q) filtered = filtered.filter(t =>
+    t.ar.includes(q) || t.en.toLowerCase().includes(q) ||
+    t.def.replace(/<[^>]+>/g,'').includes(q) || t.catLabel.includes(q)
+  );
+  render(filtered);
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.cat;
+    applyFilters();
+  });
 });
 
-/* Modal */
-function openModal(text){
-    document.getElementById('modalText').innerText = text;
-    document.getElementById('modal').classList.add('active');
-}
-function closeModal(){
-    document.getElementById('modal').classList.remove('active');
-}
+searchInput.addEventListener('input', applyFilters);
 
-/* Fake submit */
-document.getElementById('form').addEventListener('submit', function(e){
-    e.preventDefault();
-    document.getElementById('msg').classList.remove('hidden');
-    this.reset();
-});
-
+// Initial render
+render(terms);
 </script>
 
 </body>
